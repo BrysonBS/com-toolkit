@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.toolkit.tools.cpbio.mapper.SapTableInfoMapper">
+
+    <resultMap id="BaseResultMap" type="cn.com.toolkit.tools.cpbio.domain.dto.SapTableInfoDTO">
+        <result property="tableText" column="TABTEXT" />
+        <result property="tableName" column="TABNAME" />
+        <result property="fieldName" column="FIELDNAME" />
+        <result property="dataType" column="DATATYPE" />
+        <result property="length" column="LENG" jdbcType="INTEGER"/>
+        <result property="content" column="DISPLAY_NAME" />
+        <result property="keyFlag" column="KEYFLAG" />
+    </resultMap>
+
+    <select id="selectFieldList" resultMap="BaseResultMap">
+        SELECT c.DDTEXT TABTEXT,
+            a.TABNAME,a.FIELDNAME,a.DATATYPE,a.KEYFLAG,a.LENG
+             ,CASE WHEN LENGTH(TRIM(b.SCRTEXT_M)) = 0 THEN b.DDTEXT ELSE b.SCRTEXT_M END DISPLAY_NAME
+             ,b.SCRTEXT_M,b.DDTEXT
+        FROM dd03l a
+        LEFT JOIN dd04t b ON a.rollname = b.rollname AND b.ddlanguage = '1'
+        LEFT JOIN dd02t c ON a.tabname = c.tabname AND c.as4local = 'A' AND c.ddlanguage = '1'
+        <where>
+            <if test="tableName != null or tableName != ''">
+                a.tabname = #{tableName}
+            </if>
+            AND a.as4local = 'A' AND a.FIELDNAME NOT LIKE '.%'
+        </where>
+        ORDER BY a.position
+    </select>
+    <select id="selectTableList" resultMap="BaseResultMap">
+        SELECT DISTINCT c.DDTEXT TABTEXT,a.TABNAME
+        FROM dd03l a
+        LEFT JOIN dd02t c ON a.tabname = c.tabname AND c.as4local = 'A' AND c.ddlanguage = '1'
+        <where>
+            <if test="keyword != null and keyword != ''">
+                c.DDTEXT LIKE '${keyword}%' OR a.TABNAME LIKE '${keyword}%'
+            </if>
+        </where>
+    </select>
+
+</mapper>

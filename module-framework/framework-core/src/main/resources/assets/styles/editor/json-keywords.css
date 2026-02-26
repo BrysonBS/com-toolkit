@@ -1,0 +1,37 @@
+.code-area .json-keyword {
+    -fx-fill: -color-success-fg;
+    -fx-font-weight: bold;
+}
+
+.code-area .json-property {
+    -fx-fill: -color-accent-fg;
+    -fx-font-weight: bold;
+}
+
+.code-area .json-string {
+    -fx-fill: -color-warning-fg;
+}
+
+.code-area .json-number {
+    -fx-fill: -color-danger-fg;
+}
+
+.code-area .json-brace {
+    -fx-fill: -color-danger-emphasis;
+    -fx-font-weight: bold;
+}
+
+.code-area .json-colon {
+    -fx-fill: -color-danger-emphasis;
+    -fx-font-weight: bold;
+}
+
+.code-area .json-comma {
+    -fx-fill: -color-danger-muted;
+    -fx-font-weight: bold;
+}
+
+.code-area .json-comment {
+    -fx-fill: -color-danger-subtle;
+    -fx-font-style: italic;
+}

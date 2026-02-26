@@ -1,0 +1,26 @@
+.code-area .java-keyword {
+    -fx-fill: -color-accent-fg;
+    -fx-font-weight: bold;
+}
+.code-area .java-semicolon {
+    -fx-font-weight: bold;
+}
+.code-area .java-paren {
+    -fx-fill: -color-warning-fg;
+    -fx-font-weight: bold;
+}
+.code-area .java-bracket {
+    -fx-fill: -color-danger-fg;
+    -fx-font-weight: bold;
+}
+.code-area .java-brace {
+    -fx-fill: -color-danger-fg;
+    -fx-font-weight: bold;
+}
+.code-area .java-string {
+    -fx-fill: -color-success-fg;
+}
+.code-area .java-comment{
+    -fx-fill: -color-neutral-emphasis;
+    -fx-font-style: italic;
+}

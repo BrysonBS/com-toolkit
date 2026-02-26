@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.com.toolkit.tools.json.controller.JsonFormatController">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="600.0" spacing="1">
+        <padding>
+            <Insets left="3"/>
+        </padding>
+        <Button styleClass="accent,left-pill" text="格式化" onAction="#handleFormat"/>
+        <Button styleClass="accent,center-pill" text="压缩" onAction="#handleCompress"/>
+        <Button styleClass="accent,center-pill" text="转义" onAction="#handleEscape"/>
+        <Button styleClass="accent,right-pill" text="去转义" onAction="#handleUnescape"/>
+    </HBox>
+    <StackPane fx:id="contentStackPane" prefHeight="360.0" prefWidth="600.0" VBox.vgrow="ALWAYS"/>
+</VBox>

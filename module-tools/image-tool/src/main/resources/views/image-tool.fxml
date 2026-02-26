@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.com.toolkit.tools.image.controller.ImageToolController">
+    <padding>
+        <Insets topRightBottomLeft="5"/>
+    </padding>
+    <HBox spacing="1">
+        <padding>
+            <Insets bottom="5"/>
+        </padding>
+        <Button styleClass="accent,left-pill" text="选择" onAction="#handleImport">
+            <graphic>
+                <FontIcon iconLiteral="fas-plus"/>
+            </graphic>
+        </Button>
+        <Button styleClass="center-pill,success" text="转换" onAction="#handleTransferSelect">
+            <graphic>
+                <FontIcon iconLiteral="fas-sign-out-alt"/>
+            </graphic>
+        </Button>
+        <Button styleClass="right-pill,danger" text="删除" onAction="#handleRemoveSelect">
+            <graphic>
+                <FontIcon iconLiteral="fas-trash-alt"/>
+            </graphic>
+        </Button>
+    </HBox>
+    <TableView fx:id="imageTableView" VBox.vgrow="ALWAYS" styleClass="header-center" editable="true">
+        <columns>
+            <TableColumn editable="true" styleClass="align-center" fx:id="selectColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false">
+                <graphic>
+                    <CheckBox onAction="#handleSelectAll" mnemonicParsing="false"/>
+                </graphic>
+                <cellValueFactory>
+                    <PropertyValueFactory property="select"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="序号" styleClass="align-center" fx:id="indexColumn" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false"/>
+            <TableColumn text="当前">
+                <columns>
+                    <TableColumn text="名称" styleClass="align-center" fx:id="nameColumn" prefWidth="200">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="尺寸" styleClass="align-center" fx:id="dimensionColumn" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="dimension"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="大小" styleClass="align-center" fx:id="sizeColumn" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="size"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableColumn>
+            <TableColumn text="转换">
+                <columns>
+                    <TableColumn text="宽" styleClass="align-center" fx:id="widthColumn" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="width"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="高" styleClass="align-center" fx:id="heightColumn" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="height"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="保持宽高比" styleClass="align-center" fx:id="keepAspectRatioColumn" prefWidth="130">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="keepAspectRatio"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn text="格式" styleClass="align-center" fx:id="extensionColumn" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="extension"/>
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+            </TableColumn>
+            <TableColumn fx:id="operateColumn" styleClass="align-center" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" sortable="false">
+                <graphic>
+                    <FontIcon iconLiteral="fas-cog"/>
+                </graphic>
+            </TableColumn>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+
+    </TableView>
+</VBox>

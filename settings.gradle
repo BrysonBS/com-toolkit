@@ -1,0 +1,10 @@
+rootProject.name = 'com-toolkit'
+include 'module-app'
+include 'module-tools'
+include 'module-tools:cpbio-tool'
+include 'module-framework'
+include 'module-framework:framework-core'
+include 'module-tools:json-tool'
+include 'module-tools:cron-tool'
+include 'module-tools:image-tool'
+

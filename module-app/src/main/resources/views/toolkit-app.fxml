@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="cn.com.toolkit.app.controller.ToolkitAppController">
+    <fx:define>
+        <ToggleGroup fx:id="themeToggleGroup"/>
+    </fx:define>
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu text="视图">
+            <Menu text="主题">
+                <RadioMenuItem text="PrimerLight" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+                <RadioMenuItem text="PrimerDark" toggleGroup="$themeToggleGroup" selected="true" onAction="#handleThemeChange"/>
+                <SeparatorMenuItem/>
+                <RadioMenuItem text="NordLight" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+                <RadioMenuItem text="NordDark" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+                <SeparatorMenuItem/>
+                <RadioMenuItem text="CupertinoLight" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+                <RadioMenuItem text="CupertinoDark" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+                <SeparatorMenuItem/>
+                <RadioMenuItem text="Dracula" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
+            </Menu>
+        </Menu>
+    </MenuBar>
+
+    <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        <Tab text="开始" closable="false">
+            <ScrollPane fitToWidth="true">
+                <VBox>
+                    <HBox>
+                        <HBox.margin>
+                            <Insets top="5"/>
+                        </HBox.margin>
+                    </HBox>
+                    <FlowPane fx:id="contentFlowPane">
+                        <padding>
+                            <Insets top="5" left="5" right="5" bottom="5"/>
+                        </padding>
+                    </FlowPane>
+                </VBox>
+            </ScrollPane>
+
+        </Tab>
+    </TabPane>
+</VBox>

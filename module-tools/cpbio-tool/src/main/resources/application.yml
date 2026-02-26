@@ -1,0 +1,38 @@
+# 数据源配置
+spring:
+  datasource:
+    url:
+    username:
+    password:
+    driver-class-name: com.sap.db.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      initialization-fail-timeout: -1
+      pool-name: SlaveHikariPool
+      minimum-idle: 1
+      maximum-pool-size: 15
+      idle-timeout: 30000
+      connection-timeout: 5000
+      max-lifetime: 120000
+      auto-commit: true
+      connection-test-query: SELECT 1 FROM DUMMY
+
+
+# MyBatis Plus 配置
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/**/*.xml
+
+# 日志级别
+logging:
+  level:
+    root: DEBUG

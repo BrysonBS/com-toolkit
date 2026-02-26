@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.Insets?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="cn.com.toolkit.tools.cpbio.controller.Sap2DorisController">
+    <HBox prefHeight="40.0" prefWidth="600.0" spacing="5" alignment="CENTER_LEFT">
+        <padding>
+            <Insets left="3" top="3" bottom="3"/>
+        </padding>
+        <ComboBox fx:id="keywordComboBox" prefWidth="200.0"
+                  editable="true"
+                  onKeyPressed="#handleEnterPressed"
+                  promptText="请输入SAP表名"/>
+        <Button fx:id="btn" prefWidth="80"
+                styleClass="accent"
+                onAction="#handleGenerate"
+                text="生成" >
+            <graphic>
+                <FontIcon iconLiteral="fas-paper-plane"/>
+            </graphic>
+        </Button>
+    </HBox>
+    <StackPane fx:id="contentStackPane" prefHeight="360.0" prefWidth="600.0" VBox.vgrow="ALWAYS"/>
+</VBox>

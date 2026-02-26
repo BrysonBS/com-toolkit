@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.collections.FXCollections?>
+<?import cn.com.toolkit.tools.cron.enums.WeekDay?>
+<?import cn.com.toolkit.tools.cron.controls.SelectGrid?>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.com.toolkit.tools.cron.controller.CronToolController">
+    <fx:define>
+        <ToggleGroup fx:id="secondToggleGroup" />
+        <ToggleGroup fx:id="minuteToggleGroup" />
+        <ToggleGroup fx:id="hourToggleGroup" />
+        <ToggleGroup fx:id="dayToggleGroup" />
+        <ToggleGroup fx:id="monthToggleGroup" />
+        <ToggleGroup fx:id="weekToggleGroup" />
+        <ToggleGroup fx:id="yearToggleGroup" />
+    </fx:define>
+    <SplitPane dividerPositions="0.57" VBox.vgrow="ALWAYS">
+        <TabPane tabMinWidth="40">
+            <Tab closable="false" text="秒">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$secondToggleGroup" fx:id="eachSecondRadioButton" text="每秒 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$secondToggleGroup" fx:id="periodEachSecondRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodEachSecondBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodEachSecondEndSpinner"/>
+                            <Label text="秒，每秒执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$secondToggleGroup" fx:id="periodSecondRadioButton" text="从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodSecondBeginSpinner"/>
+                            <Label text="秒开始，每"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="59" editable="true" fx:id="periodSecondEndSpinner"/>
+                            <Label text="秒执行一次"/>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$secondToggleGroup" fx:id="selectSecondRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectSecondSelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="分钟">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$minuteToggleGroup" fx:id="eachMinuteRadioButton" text="每分 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$minuteToggleGroup" fx:id="periodEachMinuteRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodEachMinuteBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodEachMinuteEndSpinner"/>
+                            <Label text="分，每分执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$minuteToggleGroup" fx:id="periodMinuteRadioButton" text="从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodMinuteBeginSpinner"/>
+                            <Label text="分开始，每"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="59" editable="true" fx:id="periodMinuteEndSpinner"/>
+                            <Label text="分执行一次"/>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$minuteToggleGroup" fx:id="selectMinuteRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectMinuteSelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="小时">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$hourToggleGroup" fx:id="eachHourRadioButton" text="每小时 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$hourToggleGroup" fx:id="periodEachHourRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="23" editable="true" fx:id="periodEachHourBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="23" editable="true" fx:id="periodEachHourEndSpinner"/>
+                            <Label text="小时，每小时执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$hourToggleGroup" fx:id="periodHourRadioButton" text="从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="23" editable="true" fx:id="periodHourBeginSpinner"/>
+                            <Label text="小时开始，每"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="0" max="23" editable="true" fx:id="periodHourEndSpinner"/>
+                            <Label text="小时执行一次"/>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$hourToggleGroup" fx:id="selectHourRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectHourSelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="日">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="eachDayRadioButton" text="每日 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="unselectDayRadioButton" text="不指定"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="periodEachDayRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="31" editable="true" fx:id="periodEachDayBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="31" editable="true" fx:id="periodEachDayEndSpinner"/>
+                            <Label text="日，每日执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="periodDayRadioButton" text="从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="31" editable="true" fx:id="periodDayBeginSpinner"/>
+                            <Label text="日开始，每"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="31" editable="true" fx:id="periodDayEndSpinner"/>
+                            <Label text="日执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="dayOfMonthRadioButton" text="距每月"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="31" editable="true" fx:id="dayOfMonthSpinner"/>
+                            <Label text="号最近的那个工作日"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="endOfMonthRadioButton" text="本月最后一日"/>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$dayToggleGroup" fx:id="selectDayRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectDaySelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="月">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$monthToggleGroup" fx:id="eachMonthRadioButton" text="每月 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$monthToggleGroup" fx:id="unselectMonthRadioButton" text="不指定"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$monthToggleGroup" fx:id="periodEachMonthRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="12" editable="true" fx:id="periodEachMonthBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="12" editable="true" fx:id="periodEachMonthEndSpinner"/>
+                            <Label text="月，每月执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$monthToggleGroup" fx:id="periodMonthRadioButton" text="从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="12" editable="true" fx:id="periodMonthBeginSpinner"/>
+                            <Label text="月开始，每"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="12" editable="true" fx:id="periodMonthEndSpinner"/>
+                            <Label text="月执行一次"/>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$monthToggleGroup" fx:id="selectMonthRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectMonthSelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="周">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="eachWeekRadioButton" text="每周内日 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="unselectWeekRadioButton" text="不指定"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="periodEachWeekRadioButton" text="从星期"/>
+                            <ChoiceBox styleClass="small" prefWidth="70" fx:id="periodEachWeekBeginChoiceBox">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <WeekDay fx:constant="SUNDAY"/>
+                                        <WeekDay fx:constant="MONDAY"/>
+                                        <WeekDay fx:constant="TUESDAY"/>
+                                        <WeekDay fx:constant="WEDNESDAY"/>
+                                        <WeekDay fx:constant="THURSDAY"/>
+                                        <WeekDay fx:constant="FRIDAY"/>
+                                        <WeekDay fx:constant="SATURDAY"/>
+                                    </FXCollections>
+                                </items>
+                            </ChoiceBox>
+                            <Label text="-"/>
+                            <ChoiceBox styleClass="small" prefWidth="70" fx:id="periodEachWeekEndChoiceBox">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <WeekDay fx:constant="SUNDAY"/>
+                                        <WeekDay fx:constant="MONDAY"/>
+                                        <WeekDay fx:constant="TUESDAY"/>
+                                        <WeekDay fx:constant="WEDNESDAY"/>
+                                        <WeekDay fx:constant="THURSDAY"/>
+                                        <WeekDay fx:constant="FRIDAY"/>
+                                        <WeekDay fx:constant="SATURDAY"/>
+                                    </FXCollections>
+                                </items>
+                            </ChoiceBox>
+                            <Label text="，每天执行一次"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="weekBeginRadioButton" text="每月第"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="70" min="1" max="4" editable="true" fx:id="weekEndSpinner"/>
+                            <Label text="周的星期"/>
+                            <ChoiceBox styleClass="small" prefWidth="70" fx:id="weekBeginChoiceBox">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <WeekDay fx:constant="SUNDAY"/>
+                                        <WeekDay fx:constant="MONDAY"/>
+                                        <WeekDay fx:constant="TUESDAY"/>
+                                        <WeekDay fx:constant="WEDNESDAY"/>
+                                        <WeekDay fx:constant="THURSDAY"/>
+                                        <WeekDay fx:constant="FRIDAY"/>
+                                        <WeekDay fx:constant="SATURDAY"/>
+                                    </FXCollections>
+                                </items>
+                            </ChoiceBox>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="endWeekOfMonthRadioButton" text="本月最后一个星期"/>
+                            <ChoiceBox styleClass="small" prefWidth="70" fx:id="endWeekOfMonthChoiceBox">
+                                <items>
+                                    <FXCollections fx:factory="observableArrayList">
+                                        <WeekDay fx:constant="SUNDAY"/>
+                                        <WeekDay fx:constant="MONDAY"/>
+                                        <WeekDay fx:constant="TUESDAY"/>
+                                        <WeekDay fx:constant="WEDNESDAY"/>
+                                        <WeekDay fx:constant="THURSDAY"/>
+                                        <WeekDay fx:constant="FRIDAY"/>
+                                        <WeekDay fx:constant="SATURDAY"/>
+                                    </FXCollections>
+                                </items>
+                            </ChoiceBox>
+                        </HBox>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$weekToggleGroup" fx:id="selectWeekRadioButton" text="指定"/>
+                        </HBox>
+                        <SelectGrid fx:id="selectWeekSelectGrid"/>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+            <Tab closable="false" text="年">
+                <ScrollPane fitToWidth="true">
+                    <VBox spacing="10">
+                        <padding>
+                            <Insets topRightBottomLeft="20" />
+                        </padding>
+                        <HBox spacing="5">
+                            <RadioButton toggleGroup="$yearToggleGroup" fx:id="eachYearRadioButton" text="每年 允许的通配符[, - * /]"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$yearToggleGroup" fx:id="unselectYearRadioButton" text="不指定"/>
+                        </HBox>
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <RadioButton toggleGroup="$yearToggleGroup" fx:id="periodEachYearRadioButton" text="周期从"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="85" initialValue="2025" max="2147483647" editable="true" fx:id="periodEachYearBeginSpinner"/>
+                            <Label text="-"/>
+                            <Spinner prefHeight="28" minHeight="20" prefWidth="85" initialValue="2026" max="2147483647" editable="true" fx:id="periodEachYearEndSpinner"/>
+                            <Label text="年，每年执行一次"/>
+                        </HBox>
+                    </VBox>
+                </ScrollPane>
+            </Tab>
+        </TabPane>
+        <VBox prefWidth="300" spacing="5">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <GridPane hgap="5" vgap="5">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                    <ColumnConstraints hgrow="SOMETIMES" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints vgrow="SOMETIMES" />
+                    <RowConstraints vgrow="SOMETIMES" />
+                </rowConstraints>
+                <Label text="秒" GridPane.halignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label text="分" GridPane.halignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="时" GridPane.halignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                <Label text="天" GridPane.halignment="CENTER" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                <Label text="月" GridPane.halignment="CENTER" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+                <Label text="周" GridPane.halignment="CENTER" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+                <Label text="年" GridPane.halignment="CENTER" GridPane.columnIndex="6" GridPane.rowIndex="0"/>
+                <TextField styleClass="small" fx:id="cronSecondTextField" GridPane.columnIndex="0" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="*"/>
+                <TextField styleClass="small" fx:id="cronMinuteTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="*"/>
+                <TextField styleClass="small" fx:id="cronHourTextField" GridPane.columnIndex="2" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="*"/>
+                <TextField styleClass="small" fx:id="cronDayTextField" GridPane.columnIndex="3" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="*"/>
+                <TextField styleClass="small" fx:id="cronMonthTextField" GridPane.columnIndex="4" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="*"/>
+                <TextField styleClass="small" fx:id="cronWeekTextField" GridPane.columnIndex="5" GridPane.rowIndex="1" editable="false" prefWidth="60.0" text="?"/>
+                <TextField styleClass="small" fx:id="cronYearTextField" GridPane.columnIndex="6" GridPane.rowIndex="1" editable="false" prefWidth="60.0"/>
+            </GridPane>
+            <Label text="Cron表达式：" />
+            <TextArea fx:id="cornExpResultTextArea" prefHeight="80" text="* * * * * ?" wrapText="true"/>
+            <HBox alignment="BASELINE_LEFT" spacing="5">
+                <Button fx:id="copyCornExpButton" minWidth="-Infinity" styleClass="accent,small" text="复制"/>
+                <Button fx:id="executeCornExpButton" minWidth="-Infinity" styleClass="accent,small" text="运行" />
+            </HBox>
+            <ListView fx:id="scheduleListView" VBox.vgrow="ALWAYS" styleClass="dense,striped">
+            </ListView>
+        </VBox>
+    </SplitPane>
+</VBox>

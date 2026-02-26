@@ -1,0 +1,49 @@
+/* CodeArea 主题适配 */
+.code-area {
+    -fx-background-color: -color-bg-default;
+    -fx-text-fill: -color-fg-default;
+    -fx-font-family: "Consolas", monospace;
+}
+/* 行号区域 */
+.code-area .lineno {
+    -fx-font-family: "Consolas", monospace;
+    -fx-background-color: -color-bg-subtle;
+    -fx-text-fill: -color-fg-muted;
+    -fx-border-color: -color-border-default;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 0 5 0 5;
+}
+/* 代码高亮样式 */
+.code-area .keyword {
+    -fx-fill: -color-success-emphasis;
+}
+.code-area .string {
+    -fx-fill: -color-danger-emphasis;
+}
+.code-area .comment {
+    -fx-fill: -color-fg-muted;
+    -fx-font-style: italic;
+}
+.code-area .text {
+    -fx-fill: -color-fg-default;
+}
+.code-area .caret {
+    -fx-stroke: -color-accent-emphasis;
+}
+.code-area .selection  {
+    -fx-fill: -color-accent-muted;
+}
+
+/* 容器 */
+.code-area .content {
+    -fx-background-color: transparent;
+}
+/* 段落 */
+.code-area .paragraph-box {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+/* 光标行高亮 */
+.code-area .paragraph-box:has-caret {
+    -fx-background-color: -color-bg-subtle;
+}

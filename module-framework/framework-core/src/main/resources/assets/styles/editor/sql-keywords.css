@@ -1,0 +1,28 @@
+.code-area .sql-keyword {
+    -fx-fill: -color-accent-fg;
+}
+.code-area .sql-type {
+    -fx-fill: -color-accent-fg;
+}
+.code-area .sql-function {
+    -fx-fill: -color-accent-fg;
+}
+
+.code-area .sql-string {
+    -fx-fill: -color-danger-fg;
+}
+
+.code-area .sql-comment {
+    -fx-fill: -color-neutral-emphasis;
+    -fx-font-style: italic;
+}
+
+.code-area .sql-number {
+    -fx-fill: -color-success-fg;
+}
+
+.code-area .sql-param {
+    -fx-fill: -color-warning-fg;
+}
+
+
