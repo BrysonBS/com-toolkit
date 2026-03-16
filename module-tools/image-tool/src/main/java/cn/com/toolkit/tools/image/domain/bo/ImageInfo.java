@@ -10,6 +10,7 @@ public class ImageInfo {
     private String name;
     private String dimension;
     private Long size;
+    private final StringProperty originExtension = new SimpleStringProperty();
     private Integer originWidth;
     private Integer originHeight;
     private final IntegerProperty width = new SimpleIntegerProperty();
@@ -18,7 +19,7 @@ public class ImageInfo {
     private final BooleanProperty keepAspectRatio = new SimpleBooleanProperty(true);
 
     public ImageInfo() {}
-    public ImageInfo(File file,String name, Long size, int width, int height, String extension) {
+    public ImageInfo(File file,String name, Long size, int width, int height, String originExtension) {
         this.file = file;
         this.name = name;
         this.dimension = width + "x" + height;
@@ -27,7 +28,7 @@ public class ImageInfo {
         originHeight = height;
         this.width.set(width);
         this.height.set(height);
-        this.extension.set(extension);
+        this.originExtension.set(originExtension);
     }
     public boolean needAspectRatio() {
         return (originWidth != null && !originWidth.equals(width.get()))
@@ -111,5 +112,12 @@ public class ImageInfo {
 
     public void setFile(File file) {
         this.file = file;
+    }
+    public String getOriginExtension() {
+        return originExtension.get();
+    }
+
+    public StringProperty originExtensionProperty() {
+        return originExtension;
     }
 }

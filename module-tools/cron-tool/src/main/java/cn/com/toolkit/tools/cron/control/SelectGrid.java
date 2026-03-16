@@ -1,4 +1,4 @@
-package cn.com.toolkit.tools.cron.controls;
+package cn.com.toolkit.tools.cron.control;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

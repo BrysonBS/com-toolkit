@@ -1,4 +1,4 @@
-package cn.com.toolkit.tools.cpbio.controls;
+package cn.com.toolkit.tools.cpbio.control;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.*;

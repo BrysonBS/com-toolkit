@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.paint.Color?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cn.com.toolkit.tools.qrcode.controller.QrcodeToolController">
+    <HBox VBox.vgrow="ALWAYS">
+        <ScrollPane minWidth="280" maxWidth="280" fitToWidth="true" fitToHeight="true">
+            <VBox minWidth="270" maxWidth="270">
+                <TitledPane collapsible="false" styleClass="dense">
+                    <graphic>
+                        <Label styleClass="flat">
+                            <graphic>
+                                <FontIcon iconLiteral="fas-cog"/>
+                            </graphic>
+                        </Label>
+                    </graphic>
+                    <HBox alignment="BASELINE_CENTER" spacing="10">
+                        <Button onAction="#handleGenerateQrcode" text="生成二维码" styleClass="accent"/>
+                        <Button onAction="#handleSnapshot" text="截图识别" styleClass="danger">
+                            <tooltip>
+                                <Tooltip text="Alt+Shift+A"/>
+                            </tooltip>
+                        </Button>
+                        <Button onAction="#handleSaveQrcode" text="保存" styleClass="success">
+                            <tooltip>
+                                <Tooltip text="Ctrl+S"/>
+                            </tooltip>
+                        </Button>
+                    </HBox>
+                </TitledPane>
+                <TitledPane text="基本信息" styleClass="dense">
+                    <FlowPane vgap="5" hgap="5">
+                        <VBox spacing="5">
+                            <Label text="前景色："/>
+                            <ColorPicker fx:id="foregroundColorPicker" prefWidth="120">
+                                <value>
+                                    <Color fx:constant="BLACK"/>
+                                </value>
+                            </ColorPicker>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="背景色："/>
+                            <ColorPicker fx:id="backgroundColorPicker" prefWidth="120">
+                                <value>
+                                    <Color fx:constant="WHITE"/>
+                                </value>
+                            </ColorPicker>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="容错等级："/>
+                            <ChoiceBox fx:id="errorCorrectionLevelChoiceBox" prefWidth="120"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="边距："/>
+                            <ChoiceBox fx:id="marginChoiceBox" prefWidth="120"/>
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="图片尺寸："/>
+                            <ComboBox fx:id="sizeImageComboBox" prefWidth="120" editable="true"/>
+                        </VBox>
+                    </FlowPane>
+                </TitledPane>
+                <TitledPane text="图标" styleClass="dense">
+                    <VBox spacing="10">
+                        <StackPane fx:id="logoStackPane">
+                            <Button styleClass="button-icon,flat" fx:id="logoButton">
+                                <graphic>
+                                    <FontIcon iconSize="100" style="-fx-icon-size: 100px;-fx-icon-color:-color-accent-fg;" iconLiteral="fas-plus"/>
+                                </graphic>
+                            </Button>
+                            <ImageView fx:id="logoImageView" fitWidth="100" fitHeight="100" preserveRatio="true"/>
+                            <Label styleClass="button-icon,flat" fx:id="logoLabel" visible="false">
+                                <graphic>
+                                    <FontIcon iconSize="30" style="-fx-icon-size: 30px;-fx-icon-color:-color-danger-fg;" iconLiteral="fas-trash"/>
+                                </graphic>
+                            </Label>
+                        </StackPane>
+                        <VBox spacing="10.0">
+                            <Label text="图标覆盖区域: 20%" fx:id="logoSizeLabel"/>
+                            <Slider fx:id="logoSlider" blockIncrement="1.0" majorTickUnit="10.0" minorTickCount="5" showTickLabels="true" showTickMarks="true" value="20.0" />
+                        </VBox>
+                    </VBox>
+                </TitledPane>
+            </VBox>
+        </ScrollPane>
+        <VBox HBox.hgrow="ALWAYS" spacing="10">
+            <TextArea fx:id="contentTextArea" prefHeight="80" minHeight="80" maxHeight="80" wrapText="true"
+                      promptText = "请输入内容..."/>
+            <ScrollPane VBox.vgrow="ALWAYS" fitToWidth="true" fitToHeight="true">
+                <StackPane>
+                    <ImageView fx:id="qrcodeImageView" preserveRatio="true" />
+                </StackPane>
+            </ScrollPane>
+        </VBox>
+
+    </HBox>
+
+</VBox>

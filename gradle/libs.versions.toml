@@ -19,8 +19,11 @@ cron-utils = "9.2.1"
 twelvemonkeys = "3.13.0"
 batik-all = "1.19"
 webp-imageio = "0.1.6"
+google-zxing = "3.5.4"
+jnativehook = "2.2.2"
 
 atlantafx-base = "2.1.0"
+controlsfx = "11.2.3"
 ikonli = "12.4.0"
 animatefx = "1.3.0"
 richtextfx = "0.11.7"
@@ -69,8 +72,12 @@ imageio-icns = { module = "com.twelvemonkeys.imageio:imageio-icns", version.ref 
 imageio-pdf = { module = "com.twelvemonkeys.imageio:imageio-pdf", version.ref = "twelvemonkeys" }
 batik-all = { module = "org.apache.xmlgraphics:batik-all", version.ref = "batik-all" }
 webp-imageio = { module = "org.sejda.imageio:webp-imageio", version.ref = "webp-imageio" }
+zxing-core = { module = "com.google.zxing:core", version.ref = "google-zxing" }
+zxing-javase = { module = "com.google.zxing:javase", version.ref = "google-zxing" }
+jnativehook = { module = "com.github.kwhat:jnativehook", version.ref = "jnativehook" }
 
 atlantafx-base = { module = "io.github.mkpaz:atlantafx-base", version.ref = "atlantafx-base" }
+controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" }
 ikonli-core = { module = "org.kordamp.ikonli:ikonli-core", version.ref = "ikonli" }
 ikonli-javafx = { module = "org.kordamp.ikonli:ikonli-javafx", version.ref = "ikonli" }
 ikonli-fontawesome5-pack = { module = "org.kordamp.ikonli:ikonli-fontawesome5-pack", version.ref = "ikonli" }
@@ -94,6 +101,7 @@ okhttp = ["okhttp","okhttp-logging-interceptor"]
 ikonli = ["ikonli-core","ikonli-javafx","ikonli-fontawesome5-pack"]
 byte-buddy = ["byte-buddy","byte-buddy-agent"]
 twelvemonkeys = ["imageio-core","imageio-jpeg","imageio-webp","imageio-tiff","imageio-bmp","imageio-batik","imageio-icns","imageio-pdf","batik-all","webp-imageio"]
+google-zxing = ["zxing-core","zxing-javase"]
 
 [plugins]
 moduleplugin = { id = "org.javamodularity.moduleplugin", version.ref = "moduleplugin" }

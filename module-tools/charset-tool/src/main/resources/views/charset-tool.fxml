@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.geometry.Insets?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.image.ImageView?>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.com.toolkit.tools.charset.controller.CharsetToolController">
+    <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="1">
+        <padding>
+            <Insets left="3"/>
+        </padding>
+        <ComboBox fx:id="beforeComboBox" prefWidth="150"/>
+        <Button styleClass="button-icon,flat,accent" mouseTransparent="true" focusTraversable="false" fx:id="arrowRightButton">
+            <graphic>
+                <FontIcon iconLiteral="fas-arrow-right"/>
+            </graphic>
+        </Button>
+        <ComboBox fx:id="afterComboBox" prefWidth="150"/>
+        <Button styleClass="accent" prefWidth="70" text="转换" onAction="#handleConvert"/>
+    </HBox>
+    <SplitPane VBox.vgrow="ALWAYS" dividerPositions="0.5">
+        <StackPane fx:id="leftStackPane">
+            <TextArea VBox.vgrow="ALWAYS" wrapText="true" fx:id="beforeTextArea" />
+            <ImageView fx:id="importImageView" preserveRatio="true" visible="false"/>
+            <Label fx:id="importImageLabel" visible="false">
+                <graphic>
+                    <FontIcon iconSize="80" style="-fx-icon-size: 80px;-fx-icon-color:-color-accent-fg;" iconLiteral="fas-plus"/>
+                </graphic>
+            </Label>
+        </StackPane>
+        <StackPane fx:id="rightStackPane">
+            <TextArea VBox.vgrow="ALWAYS" wrapText="true" fx:id="afterTextArea"/>
+            <ImageView fx:id="base64ImageView" preserveRatio="true" visible="false" />
+            <Label fx:id="exportImageLabel" visible="false">
+                <graphic>
+                    <FontIcon iconSize="40" style="-fx-icon-size: 40px;-fx-icon-color:-color-accent-fg;" iconLiteral="fas-arrow-down"/>
+                </graphic>
+            </Label>
+        </StackPane>
+
+    </SplitPane>
+</VBox>

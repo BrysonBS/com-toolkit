@@ -7,6 +7,7 @@
 <?import javafx.geometry.Insets?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import cn.com.toolkit.framework.core.control.ClearableComboBox?>
 <VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.com.toolkit.tools.image.controller.ImageToolController">
     <padding>
         <Insets topRightBottomLeft="5"/>
@@ -30,6 +31,13 @@
                 <FontIcon iconLiteral="fas-trash-alt"/>
             </graphic>
         </Button>
+        <HBox alignment="BASELINE_LEFT">
+            <HBox.margin>
+                <Insets left="50"/>
+            </HBox.margin>
+            <Button text="目标格式" styleClass="left-pill,accent" mouseTransparent="true"/>
+            <ClearableComboBox styleClass="right-pill" fx:id="globalExtensionComboBox"/>
+        </HBox>
     </HBox>
     <TableView fx:id="imageTableView" VBox.vgrow="ALWAYS" styleClass="header-center" editable="true">
         <columns>
@@ -59,9 +67,14 @@
                             <PropertyValueFactory property="size"/>
                         </cellValueFactory>
                     </TableColumn>
+                    <TableColumn text="格式" styleClass="align-center" prefWidth="100">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="originExtension"/>
+                        </cellValueFactory>
+                    </TableColumn>
                 </columns>
             </TableColumn>
-            <TableColumn text="转换">
+            <TableColumn text="目标">
                 <columns>
                     <TableColumn text="宽" styleClass="align-center" fx:id="widthColumn" prefWidth="100">
                         <cellValueFactory>

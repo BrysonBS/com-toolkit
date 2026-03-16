@@ -29,8 +29,11 @@ dependencies {
     api(libs.bundles.okhttp)
     api(libs.cron.utils)
     api(libs.bundles.twelvemonkeys)
+    api(libs.bundles.google.zxing)
+    api(libs.jnativehook)
 
     api(libs.atlantafx.base)
+    api(libs.controlsfx)
     api(libs.bundles.ikonli)
     api(libs.animatefx)
     api(libs.richtextfx)
@@ -43,5 +46,6 @@ dependencies {
     compileOnly("org.openjfx:javafx-graphics:$javafxVersion:$platform")
     compileOnly("org.openjfx:javafx-controls:$javafxVersion:$platform")
     compileOnly("org.openjfx:javafx-fxml:$javafxVersion:$platform")
+    compileOnly("org.openjfx:javafx-swing:$javafxVersion:$platform")
 
 }

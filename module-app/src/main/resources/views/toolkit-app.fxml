@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="cn.com.toolkit.app.controller.ToolkitAppController">
     <fx:define>
         <ToggleGroup fx:id="themeToggleGroup"/>
@@ -27,22 +27,17 @@
     </MenuBar>
 
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets right="3" bottom="3" left="3"/>
+        </padding>
         <Tab text="开始" closable="false">
             <ScrollPane fitToWidth="true">
-                <VBox>
-                    <HBox>
-                        <HBox.margin>
-                            <Insets top="5"/>
-                        </HBox.margin>
-                    </HBox>
-                    <FlowPane fx:id="contentFlowPane">
-                        <padding>
-                            <Insets top="5" left="5" right="5" bottom="5"/>
-                        </padding>
-                    </FlowPane>
-                </VBox>
+                <FlowPane fx:id="contentFlowPane">
+                    <padding>
+                        <Insets top="5" left="5" right="5" bottom="5"/>
+                    </padding>
+                </FlowPane>
             </ScrollPane>
-
         </Tab>
     </TabPane>
 </VBox>

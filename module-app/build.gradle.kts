@@ -17,7 +17,7 @@ application {
 
 javafx {
     version = libs.versions.javafx.get()
-    modules = listOf("javafx.controls", "javafx.fxml")
+    modules = listOf("javafx.controls", "javafx.fxml","javafx.swing")
 }
 
 dependencies{
@@ -113,7 +113,10 @@ tasks.register<Copy>("jarMerge") {
         ":module-tools:cpbio-tool",
         ":module-tools:json-tool",
         ":module-tools:cron-tool",
-        ":module-tools:image-tool"
+        ":module-tools:image-tool",
+        ":module-tools:charset-tool",
+        ":module-tools:qrcode-tool",
+        ":module-tools:regex-tool"
     )
     destinationDir = layout.buildDirectory.get().asFile
     //额外插件

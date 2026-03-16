@@ -1,6 +1,7 @@
 package cn.com.toolkit.framework.core.support;
 
 import atlantafx.base.theme.PrimerDark;
+import cn.com.toolkit.framework.core.util.ToolKitFXUtil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -19,7 +20,7 @@ import java.io.StringWriter;
 public abstract class BaseFxApplication extends Application {
     private static final Double MAX_VALUE = Double.MAX_VALUE;
     protected static Logger log = LoggerFactory.getLogger(BaseFxApplication.class);
-    protected static Stage primaryStage;
+    protected Stage primaryStage;
     @Override
     public void init(){
         try{
@@ -86,13 +87,7 @@ public abstract class BaseFxApplication extends Application {
             content.setMaxWidth(MAX_VALUE);
 
             alert.getDialogPane().setExpandableContent(content);
-            if(primaryStage == null){
-                primaryStage = Stage.getWindows().stream()
-                        .filter(Stage.class::isInstance)
-                        .map(Stage.class::cast)
-                        .findFirst()
-                        .orElse(null);
-            }
+            if(primaryStage == null) primaryStage = ToolKitFXUtil.getPrimaryStage();
             if(primaryStage != null) alert.initOwner(primaryStage);
             return alert;
         } catch (IOException e) {

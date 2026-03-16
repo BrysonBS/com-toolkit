@@ -7,4 +7,7 @@ include 'module-framework:framework-core'
 include 'module-tools:json-tool'
 include 'module-tools:cron-tool'
 include 'module-tools:image-tool'
+include 'module-tools:charset-tool'
+include 'module-tools:qrcode-tool'
+include 'module-tools:regex-tool'
 

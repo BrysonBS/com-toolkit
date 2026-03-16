@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import atlantafx.base.layout.InputGroup?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import org.controlsfx.control.CheckComboBox?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cn.com.toolkit.tools.regex.controller.RegexController">
+    <padding>
+        <Insets topRightBottomLeft="5"/>
+    </padding>
+    <HBox VBox.vgrow="ALWAYS">
+        <TextArea promptText="请输入待匹配文本" fx:id="textArea" HBox.hgrow="ALWAYS" wrapText="true"  minHeight="100"/>
+    </HBox>
+    <HBox>
+        <InputGroup HBox.hgrow="ALWAYS">
+            <Label text="正则表达式"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="regexTextField"/>
+            <CheckComboBox fx:id="checkComboBox" title="标识符" maxWidth="100"/>
+            <MenuButton text="语法参考" styleClass="accent" fx:id="referenceMenuButton">
+                <graphic>
+                    <FontIcon iconLiteral="fas-book"/>
+                </graphic>
+            </MenuButton>
+        </InputGroup>
+    </HBox>
+    <HBox VBox.vgrow="ALWAYS">
+        <TextArea promptText="匹配结果" editable="false" fx:id="matchTextArea" HBox.hgrow="ALWAYS" wrapText="true" minHeight="100"/>
+    </HBox>
+    <HBox>
+        <InputGroup HBox.hgrow="ALWAYS">
+            <Label text="替换文本"/>
+            <TextField fx:id="replaceTextField" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="replaceButton" text="替换" styleClass="accent"/>
+        </InputGroup>
+    </HBox>
+    <HBox VBox.vgrow="ALWAYS">
+        <TextArea promptText="替换结果" fx:id="replaceTextArea" HBox.hgrow="ALWAYS" wrapText="true" minHeight="100"/>
+    </HBox>
+</VBox>

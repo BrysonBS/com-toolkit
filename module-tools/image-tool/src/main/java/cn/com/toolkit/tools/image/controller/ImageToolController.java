@@ -1,11 +1,10 @@
 package cn.com.toolkit.tools.image.controller;
 
 import atlantafx.base.theme.Styles;
+import cn.com.toolkit.framework.core.control.ClearableComboBox;
 import cn.com.toolkit.framework.core.util.Notifications;
 import cn.com.toolkit.tools.image.domain.bo.ImageInfo;
 import cn.com.toolkit.tools.image.support.ImageSupport;
-import com.twelvemonkeys.imageio.plugins.bmp.ICOImageReaderSpi;
-import com.twelvemonkeys.imageio.plugins.bmp.ICOImageWriterSpi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,13 +17,13 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.util.converter.IntegerStringConverter;
+import org.apache.commons.lang3.StringUtils;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
-import javax.imageio.spi.IIORegistry;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +33,8 @@ import java.util.stream.Stream;
 
 public class ImageToolController {
     private static Logger log = LoggerFactory.getLogger(ImageToolController.class);
-    @FXML private ObservableList<ImageInfo> dataObservableList = FXCollections.observableArrayList();
+    private final ObservableList<ImageInfo> dataObservableList = FXCollections.observableArrayList();
+    @FXML public ClearableComboBox<String> globalExtensionComboBox;
     @FXML private TableView<ImageInfo> imageTableView;
     @FXML private TableColumn<ImageInfo,Boolean> selectColumn;
     @FXML private TableColumn<ImageInfo,Integer> indexColumn;
@@ -47,6 +47,7 @@ public class ImageToolController {
 
     @FXML
     public void initialize(){
+        globalExtensionComboBox.setItems(FXCollections.observableArrayList(writeFormatList()));
         imageTableView.setItems(dataObservableList);
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
         indexColumn.setCellFactory(column -> new TableCell<>() {
@@ -85,12 +86,9 @@ public class ImageToolController {
         widthColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         heightColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         keepAspectRatioColumn.setCellFactory(CheckBoxTableCell.forTableColumn(keepAspectRatioColumn));
-        extensionColumn.setCellFactory(ComboBoxTableCell.forTableColumn(FXCollections.observableArrayList(
-                Stream.concat(Arrays.stream(ImageIO.getWriterFormatNames()), Stream.of("webp"))
-                        .map(String::toLowerCase)
-                        .distinct()
-                        .toList()
-        )));
+        extensionColumn.setCellFactory(ComboBoxTableCell.forTableColumn(
+                FXCollections.observableArrayList(writeFormatList())
+        ));
     }
 
     public void handleImport(ActionEvent event) throws IOException {
@@ -116,6 +114,16 @@ public class ImageToolController {
     @FXML
     private void handleTransferSelect(ActionEvent event) throws IOException {
         if(dataObservableList.isEmpty()) return;
+        String globalExtension = globalExtensionComboBox.getValue();
+        if(StringUtils.isBlank(globalExtension)){
+            for (ImageInfo imageInfo : dataObservableList.filtered(ImageInfo::getSelect)) {
+                if(StringUtils.isEmpty(imageInfo.getExtension())){
+                    Notifications.warning("请先指定图片[" + imageInfo.getName() + "]要转换的目标格式",Pos.TOP_RIGHT);
+                    return;
+                }
+            }
+        }
+
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("选择保存目录");
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + File.separator + "Downloads"));
@@ -123,32 +131,31 @@ public class ImageToolController {
         if(selectedDirectory == null) return;
         String basePath = selectedDirectory.getAbsolutePath();
 
-        IIORegistry registry = IIORegistry.getDefaultInstance();
-        registry.registerServiceProvider(new ICOImageReaderSpi());
-        registry.registerServiceProvider(new ICOImageWriterSpi());
         List<Integer> successList = new ArrayList<>();
         for (ImageInfo imageInfo : dataObservableList.filtered(ImageInfo::getSelect)) {
+            String extension = StringUtils.isBlank(imageInfo.getExtension())
+                    ? globalExtension : imageInfo.getExtension();
             String name = imageInfo.getName();
-            String newName = name.substring(0,name.lastIndexOf(".") + 1) + imageInfo.getExtension();
+            String newName = name.substring(0,name.lastIndexOf(".") + 1) + extension;
             File outputFile = new File(basePath, newName);
             BufferedImage originalImage = ImageIO.read(imageInfo.getFile());
-            if(imageInfo.getExtension().equalsIgnoreCase("ico")
-            || imageInfo.getExtension().equalsIgnoreCase("icns")){
+            if(extension.equalsIgnoreCase("ico")
+            || extension.equalsIgnoreCase("icns")){
                 try {
-                    int[] size = imageInfo.getExtension().equalsIgnoreCase("icns")?
+                    int[] size = extension.equalsIgnoreCase("icns")?
                         new int[]{16,32,64,128,256} : new int[]{16,32,48,64,96,128,256};
-                    ImageSupport.convertToIco(originalImage,outputFile,size,imageInfo.getExtension());
+                    ImageSupport.convertToIco(originalImage,outputFile,size,extension);
                     successList.add(dataObservableList.indexOf(imageInfo) + 1);
                 }catch (Exception e){
                     log.error(e.getMessage(),e);
                 }
                 continue;
             }
-            else if(imageInfo.getExtension().equalsIgnoreCase("wbmp"))
+            else if(extension.equalsIgnoreCase("wbmp"))
                 originalImage = ImageSupport.convertToBinaryImage(originalImage);
             if(imageInfo.needAspectRatio())
                 originalImage = ImageSupport.resizeImage(originalImage,imageInfo.getWidth(),imageInfo.getHeight(),imageInfo.getKeepAspectRatio());
-            boolean success = ImageIO.write(originalImage, imageInfo.getExtension(), outputFile);
+            boolean success = ImageIO.write(originalImage, extension, outputFile);
             if(success) successList.add(dataObservableList.indexOf(imageInfo) + 1);
         }
         if(successList.isEmpty())
@@ -171,6 +178,12 @@ public class ImageToolController {
     private List<String> readExtensions(){
         return Arrays.stream(ImageIO.getReaderFormatNames())
                 .map("*"::concat)
+                .toList();
+    }
+    private List<String> writeFormatList(){
+        return Stream.concat(Stream.of("webp"),Arrays.stream(ImageIO.getWriterFormatNames()))
+                .map(String::toLowerCase)
+                .distinct()
                 .toList();
     }
 }
