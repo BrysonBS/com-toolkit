@@ -21,6 +21,7 @@ batik-all = "1.19"
 webp-imageio = "0.1.6"
 google-zxing = "3.5.4"
 jnativehook = "2.2.2"
+fastexcel = "1.3.0"
 
 atlantafx-base = "2.1.0"
 controlsfx = "11.2.3"
@@ -75,6 +76,7 @@ webp-imageio = { module = "org.sejda.imageio:webp-imageio", version.ref = "webp-
 zxing-core = { module = "com.google.zxing:core", version.ref = "google-zxing" }
 zxing-javase = { module = "com.google.zxing:javase", version.ref = "google-zxing" }
 jnativehook = { module = "com.github.kwhat:jnativehook", version.ref = "jnativehook" }
+fastexcel = { module = "cn.idev.excel:fastexcel", version.ref = "fastexcel" }
 
 atlantafx-base = { module = "io.github.mkpaz:atlantafx-base", version.ref = "atlantafx-base" }
 controlsfx = { module = "org.controlsfx:controlsfx", version.ref = "controlsfx" }

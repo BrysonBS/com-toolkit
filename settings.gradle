@@ -10,4 +10,5 @@ include 'module-tools:image-tool'
 include 'module-tools:charset-tool'
 include 'module-tools:qrcode-tool'
 include 'module-tools:regex-tool'
+include 'module-tools:excel-tool'
 

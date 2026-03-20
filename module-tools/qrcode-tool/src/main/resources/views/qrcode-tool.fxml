@@ -6,34 +6,30 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.paint.Color?>
+<?import atlantafx.base.controls.Card?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="cn.com.toolkit.tools.qrcode.controller.QrcodeToolController">
     <HBox VBox.vgrow="ALWAYS">
         <ScrollPane minWidth="280" maxWidth="280" fitToWidth="true" fitToHeight="true">
             <VBox minWidth="270" maxWidth="270">
-                <TitledPane collapsible="false" styleClass="dense">
-                    <graphic>
-                        <Label styleClass="flat">
-                            <graphic>
-                                <FontIcon iconLiteral="fas-cog"/>
-                            </graphic>
-                        </Label>
-                    </graphic>
-                    <HBox alignment="BASELINE_CENTER" spacing="10">
-                        <Button onAction="#handleGenerateQrcode" text="生成二维码" styleClass="accent"/>
-                        <Button onAction="#handleSnapshot" text="截图识别" styleClass="danger">
-                            <tooltip>
-                                <Tooltip text="Alt+Shift+A"/>
-                            </tooltip>
-                        </Button>
-                        <Button onAction="#handleSaveQrcode" text="保存" styleClass="success">
-                            <tooltip>
-                                <Tooltip text="Ctrl+S"/>
-                            </tooltip>
-                        </Button>
-                    </HBox>
-                </TitledPane>
+                <Card>
+                    <body>
+                        <HBox alignment="CENTER">
+                            <Button onAction="#handleGenerateQrcode" text="生成二维码" styleClass="left-pill,accent"/>
+                            <Button onAction="#handleSnapshot" text="截图识别" styleClass="center-pill,danger">
+                                <tooltip>
+                                    <Tooltip text="Alt+Shift+A"/>
+                                </tooltip>
+                            </Button>
+                            <Button onAction="#handleSaveQrcode" text="保存" styleClass="right-pill,success">
+                                <tooltip>
+                                    <Tooltip text="Ctrl+S"/>
+                                </tooltip>
+                            </Button>
+                        </HBox>
+                    </body>
+                </Card>
                 <TitledPane text="基本信息" styleClass="dense">
                     <FlowPane vgap="5" hgap="5">
                         <VBox spacing="5">

@@ -31,6 +31,7 @@ dependencies {
     api(libs.bundles.twelvemonkeys)
     api(libs.bundles.google.zxing)
     api(libs.jnativehook)
+    api(libs.fastexcel)
 
     api(libs.atlantafx.base)
     api(libs.controlsfx)

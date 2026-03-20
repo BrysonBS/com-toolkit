@@ -66,6 +66,7 @@ public class QrcodeToolController {
     public TextArea contentTextArea;
     public ComboBox<String> sizeImageComboBox;
     public Label logoSizeLabel;
+    private File initialDirectory;
 
     @FXML
     private void initialize(){
@@ -136,22 +137,26 @@ public class QrcodeToolController {
     public void handleSaveQrcode(ActionEvent event) {
         Image image = qrcodeImageView.getImage();
         if(image == null) return;
-        ToolKitFXUtil.openFileChooser(null
-                , HomeDirectoryEnum.PICTURES
-                ,file -> {
-                    try {
-                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-                        Notifications.success("保存成功!", Pos.TOP_RIGHT);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                ,fileChooser -> {
-                    fileChooser.setTitle("保存图片");
-                    String timeStamp = ToolKitUtil.dateToString(LocalDateTime.now(), DatePatternEnum.DATE_TIME_PATTERN_2);
-                    fileChooser.setInitialFileName("qrcode_" + timeStamp + ".png");
-                }
-                ,new FileChooser.ExtensionFilter(extension + "PNG图片 (*." + extension + ")", "*." + extension));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("保存截图");
+        String userHome = System.getProperty("user.home");
+        fileChooser.setInitialDirectory(new File(userHome, HomeDirectoryEnum.PICTURES.getValue()));
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter(extension + "PNG图片 (*." + extension + ")", "*." + extension)
+        );
+        String timeStamp = ToolKitUtil.dateToString(LocalDateTime.now(), DatePatternEnum.DATE_TIME_PATTERN_2);
+        fileChooser.setInitialFileName("qrcode_" + timeStamp + ".png");
+        if(initialDirectory != null && initialDirectory.isDirectory())
+            fileChooser.setInitialDirectory(initialDirectory);
+        File file = fileChooser.showSaveDialog(null);
+        if(file == null) return;
+        try {
+            initialDirectory = file.getParentFile();
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            Notifications.success("保存成功!", Pos.TOP_RIGHT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     private void initLogoEvent(){
         FileChooser fileChooser = new FileChooser();

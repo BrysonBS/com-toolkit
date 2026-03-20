@@ -20,3 +20,6 @@
 - name: "正则表达式"
   fxml: "views/regex-tool.fxml"
   jar: "plugins/regex-tool-0.0.1.jar"
+- name: "excel工具"
+  fxml: "views/excel-tool.fxml"
+  jar: "plugins/excel-tool-0.0.1.jar"

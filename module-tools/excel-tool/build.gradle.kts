@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.shadow.plugin)
 }
 application {
-    mainClass.set("cn.com.toolkit.app.application.Launcher")
+    mainClass.set("cn.com.toolkit.tools.excel.application.Launcher")
     applicationDefaultJvmArgs = listOf(
         "-Dfile.encoding=UTF-8",
         "-Dsun.stdout.encoding=UTF-8",
@@ -23,15 +23,15 @@ javafx {
 dependencies{
     implementation(project(":module-framework:framework-core"))
 }
-
-
 runtime {
+
     options.set(listOf("--strip-debug", "--compress", "1", "--no-header-files", "--no-man-pages"))
+
+
     launcher {
         noConsole = true
     }
     jpackage {
-
         val currentOs = org.gradle.internal.os.OperatingSystem.current()
         val imgType = when {
             currentOs.isWindows -> "ico"
@@ -46,7 +46,6 @@ runtime {
             "--description", "Description",
             "--copyright", "Copyright 2025"
         ))
-
         when {
             currentOs.isWindows -> {
                 installerOptions.addAll(listOf(
@@ -78,7 +77,6 @@ tasks.shadowJar {
     //重命名
     //archiveFileName.set("${project.name}-${project.version}-all.jar")
 
-
     // 关键：自动合并服务文件
     mergeServiceFiles()
 
@@ -90,7 +88,6 @@ tasks.shadowJar {
             "Build-Jdk" to JavaVersion.current(),
         )
     }
-
     exclude(
         "META-INF/*.SF",
         "META-INF/*.DSA",
@@ -100,47 +97,11 @@ tasks.shadowJar {
         "**/*.java",
         "**/*.groovy",
         "**/*.scala",
-        "**/*.kt",
-        "plugins/**",
+        "**/*.kt"
     )
-
 }
 
-tasks.register<Copy>("jarMerge") {
+// 使 build 任务依赖 shadowJar
+tasks.build {
     dependsOn(tasks.shadowJar)
-    group = "build"
-    val modules = listOf(
-        ":module-tools:cpbio-tool",
-        ":module-tools:json-tool",
-        ":module-tools:cron-tool",
-        ":module-tools:image-tool",
-        ":module-tools:charset-tool",
-        ":module-tools:qrcode-tool",
-        ":module-tools:regex-tool",
-        ":module-tools:excel-tool"
-    )
-    destinationDir = layout.buildDirectory.get().asFile
-    //额外插件
-    from(modules.map { modulePath ->
-        project(modulePath).tasks.jar.get().archiveFile
-    }){
-        //相对于destinationDir
-        into("libs/plugins")
-    }
-
-    if(destinationDir.resolve("jpackage/${project.name}/app").exists()){
-        from(modules.map { modulePath ->
-            project(modulePath).tasks.jar.get().archiveFile
-        }){
-            //相对于destinationDir
-            into("jpackage/${project.name}/app/plugins")
-        }
-    }
-}
-
-tasks.jar{
-    enabled = false
-}
-tasks.jpackageImage{
-    finalizedBy("jarMerge");
 }

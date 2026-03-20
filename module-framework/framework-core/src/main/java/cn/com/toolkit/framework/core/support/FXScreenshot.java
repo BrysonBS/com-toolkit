@@ -678,25 +678,24 @@ public class FXScreenshot {
     private void saveCurrentScreenshot() {
         Image image = getSelectionRectImage();
         if(image == null) return;
-        ToolKitFXUtil.openFileChooser(screenshotStage
-                ,HomeDirectoryEnum.PICTURES
-                ,file -> {
-                    try {
-                        initialDirectory = file.getParentFile();
-                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-                        closeScreenshot();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                ,fileChooser -> {
-                    fileChooser.setTitle("保存截图");
-                    String timeStamp = ToolKitUtil.dateToString(LocalDateTime.now(), DatePatternEnum.DATE_TIME_PATTERN_2);
-                    fileChooser.setInitialFileName(timeStamp + ".png");
-                    if(initialDirectory != null && initialDirectory.isDirectory())
-                        fileChooser.setInitialDirectory(initialDirectory);
-                }
-                ,new FileChooser.ExtensionFilter("PNG图片 (*.png)", "*.png"));
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("保存截图");
+        String userHome = System.getProperty("user.home");
+        fileChooser.setInitialDirectory(new File(userHome, HomeDirectoryEnum.PICTURES.getValue()));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG图片 (*.png)", "*.png"));
+        String timeStamp = ToolKitUtil.dateToString(LocalDateTime.now(), DatePatternEnum.DATE_TIME_PATTERN_2);
+        fileChooser.setInitialFileName(timeStamp + ".png");
+        if(initialDirectory != null && initialDirectory.isDirectory())
+            fileChooser.setInitialDirectory(initialDirectory);
+        File file = fileChooser.showSaveDialog(screenshotStage);
+        if(file == null) return;
+        try {
+            initialDirectory = file.getParentFile();
+            ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
+            closeScreenshot();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

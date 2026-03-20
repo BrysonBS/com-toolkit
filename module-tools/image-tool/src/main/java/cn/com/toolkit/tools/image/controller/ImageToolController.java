@@ -3,6 +3,7 @@ package cn.com.toolkit.tools.image.controller;
 import atlantafx.base.theme.Styles;
 import cn.com.toolkit.framework.core.control.ClearableComboBox;
 import cn.com.toolkit.framework.core.util.Notifications;
+import cn.com.toolkit.framework.core.util.ToolKitUtil;
 import cn.com.toolkit.tools.image.domain.bo.ImageInfo;
 import cn.com.toolkit.tools.image.support.ImageSupport;
 import javafx.collections.FXCollections;
@@ -80,7 +81,7 @@ public class ImageToolController {
             @Override
             protected void updateItem(Long bytes, boolean empty) {
                 super.updateItem(bytes, empty);
-                setText(empty || bytes == null ? "" : formatFileSize(bytes));
+                setText(empty || bytes == null ? "" : ToolKitUtil.formatFileSize(bytes));
             }
         });
         widthColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
@@ -168,12 +169,6 @@ public class ImageToolController {
     @FXML
     private void handleRemoveSelect(ActionEvent event) {
         dataObservableList.removeIf(ImageInfo::getSelect);
-    }
-    private String formatFileSize(long size) {
-        if (size <= 0) return "0 B";
-        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB", "PB"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
     private List<String> readExtensions(){
         return Arrays.stream(ImageIO.getReaderFormatNames())

@@ -1,6 +1,5 @@
 package cn.com.toolkit.framework.core.util;
 
-import cn.com.toolkit.framework.core.enums.HomeDirectoryEnum;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,14 +9,11 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.function.Consumer;
 
 public class ToolKitFXUtil {
     public static Stage getPrimaryStage(){
@@ -39,22 +35,6 @@ public class ToolKitFXUtil {
         // 使用setPixels批量操作
         result.getPixelWriter().setPixels(0, 0, width, height, reader, x, y);
         return result;
-    }
-    public static void openFileChooser(Stage stage
-            ,HomeDirectoryEnum homeDirectoryEnum
-            ,Consumer<File> fileConsumer
-            ,Consumer<FileChooser> fileChooserConsumer
-            , FileChooser.ExtensionFilter... extensionFilters){
-        if(homeDirectoryEnum == null) homeDirectoryEnum = HomeDirectoryEnum.DOWNLOADS;
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("保存");
-        String userHome = System.getProperty("user.home");
-        fileChooser.setInitialDirectory(new File(userHome, homeDirectoryEnum.getValue()));
-        fileChooser.getExtensionFilters().addAll(extensionFilters);
-        if(fileChooserConsumer != null) fileChooserConsumer.accept(fileChooser);
-        File file = fileChooser.showSaveDialog(stage);
-        if(file == null) return;
-        if(fileConsumer != null) fileConsumer.accept(file);
     }
     public static BufferedImage convertIkonliIconToImage(Ikon icon,int size,String colorStyle){
         FontIcon fontIcon = new FontIcon(icon);
