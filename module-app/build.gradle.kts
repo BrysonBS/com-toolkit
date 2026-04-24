@@ -22,24 +22,26 @@ javafx {
 
 dependencies{
     implementation(project(":module-framework:framework-core"))
+    implementation("it.sauronsoftware:junique:1.0.4")
 }
 
-
+var appImageName = "toolkit"
 runtime {
     options.set(listOf("--strip-debug", "--compress", "1", "--no-header-files", "--no-man-pages"))
     launcher {
         noConsole = true
     }
     jpackage {
-
         val currentOs = org.gradle.internal.os.OperatingSystem.current()
         val imgType = when {
             currentOs.isWindows -> "ico"
             currentOs.isMacOsX -> "icns"
             else -> "png"
         }
+        imageName = appImageName
         imageOptions.addAll(listOf("--icon", "src/main/resources/assets/icons/icon.$imgType"))
         installerOptions.addAll(listOf(
+            "--name", imageName,
             "--resource-dir", "src/main/resources",
             "--app-version", "${project.version}",
             //"--vendor", "",
@@ -117,7 +119,8 @@ tasks.register<Copy>("jarMerge") {
         ":module-tools:charset-tool",
         ":module-tools:qrcode-tool",
         ":module-tools:regex-tool",
-        ":module-tools:excel-tool"
+        ":module-tools:excel-tool",
+        ":module-tools:sql2pojo-tool"
     )
     destinationDir = layout.buildDirectory.get().asFile
     //额外插件
@@ -128,14 +131,23 @@ tasks.register<Copy>("jarMerge") {
         into("libs/plugins")
     }
 
-    if(destinationDir.resolve("jpackage/${project.name}/app").exists()){
-        from(modules.map { modulePath ->
-            project(modulePath).tasks.jar.get().archiveFile
-        }){
-            //相对于destinationDir
-            into("jpackage/${project.name}/app/plugins")
+    doFirst {
+        val pluginsDir = destinationDir.resolve("jpackage/${appImageName}/app/plugins")
+        val appDir = pluginsDir.parentFile
+        if (appDir.exists()) {
+            pluginsDir.mkdirs()
+            modules.forEach { modulePath ->
+                project.copy {
+                    from(project(modulePath).tasks.jar.get().archiveFile)
+                    into(pluginsDir)
+                }
+            }
+            logger.lifecycle("Copied plugins to $pluginsDir")
+        } else {
+            logger.warn("App directory not found: $appDir")
         }
     }
+
 }
 
 tasks.jar{

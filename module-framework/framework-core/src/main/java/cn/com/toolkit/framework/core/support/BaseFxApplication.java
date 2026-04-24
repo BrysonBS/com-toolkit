@@ -39,7 +39,7 @@ public abstract class BaseFxApplication extends Application {
             startWithLog(stage);
             Scene scene = stage.getScene();
             if(scene != null) scene.getStylesheets().add(getClass().getResource("/assets/styles/main.css").toExternalForm());
-        }catch (Exception e){
+        }catch (Throwable e){
             log.error(e.getMessage(),e);
         }
     }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.Button?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cn.com.toolkit.tools.sql2pojo.controller.Sql2PojoController">
+    <HBox>
+        <Button fx:id="databaseConfigButton" onAction="#handleConnection" text="连接" styleClass="flat,accent" style="-fx-underline: false;" prefWidth="70" contentDisplay="top">
+            <graphic>
+                <FontIcon style="-fx-icon-size: 25;" iconSize="25" iconLiteral="fas-link"/>
+            </graphic>
+        </Button>
+        <Button text="生成" onAction="#handleGenerate" styleClass="flat,accent" style="-fx-underline: false;" prefWidth="70" contentDisplay="top">
+            <graphic>
+                <FontIcon style="-fx-icon-size: 25;" iconSize="25" iconLiteral="fas-feather-alt"/>
+            </graphic>
+        </Button>
+    </HBox>
+    <TabPane fx:id="codeTablePane" VBox.vgrow="ALWAYS" tabClosingPolicy="UNAVAILABLE" styleClass="dense">
+        <Tab fx:id="sqlTab" text="SQL">
+            <TextArea fx:id="sqlTextArea" VBox.vgrow="ALWAYS"/>
+        </Tab>
+        <Tab fx:id="pojoTab" text="POJO">
+        </Tab>
+        <Tab fx:id="mapperXmlTab" text="resultMap">
+        </Tab>
+    </TabPane>
+</VBox>

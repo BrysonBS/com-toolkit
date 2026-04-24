@@ -72,15 +72,15 @@ public class CharsetToolController {
         String afterCharset = afterComboBox.getValue();
         if(StringUtils.isBlank(beforeCharset) ||
                 !singleSelectList.contains(beforeCharset) && StringUtils.isBlank(afterCharset)){
-            Notifications.error("请先选择编码", Pos.TOP_RIGHT);
+            Notifications.error("请先选择编码");
             return;
         }
         if(IMAGE_TO_BASE64.equals(beforeCharset) && importImageView.getImage() == null){
-            Notifications.error("请先选择图片", Pos.TOP_RIGHT);
+            Notifications.error("请先选择图片");
             return;
         }
         if(!IMAGE_TO_BASE64.equals(beforeCharset) && StringUtils.isEmpty(beforeTextArea.getText())) {
-            Notifications.error("请先输入要转码的内容", Pos.TOP_RIGHT);
+            Notifications.error("请先输入要转码的内容");
             return;
         }
         if(IMAGE_TO_BASE64.equals(beforeCharset)){
@@ -119,7 +119,7 @@ public class CharsetToolController {
         else if(radixList.contains(beforeCharset)){
             String number = beforeTextArea.getText();
             if(!NumberUtils.isParsable(number)){
-                Notifications.error("请输入数值", Pos.TOP_RIGHT);
+                Notifications.error("请输入数值");
                 return;
             }
             int fromRadix = NumberUtils.toInt(beforeComboBox.getValue()
@@ -160,7 +160,7 @@ public class CharsetToolController {
         if(file == null) return;
         try (FileOutputStream fos = new FileOutputStream(file)) {
             fos.write(imageBytes);
-            Notifications.success("保存成功!", Pos.TOP_RIGHT);
+            Notifications.success("保存成功!");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -309,7 +309,7 @@ public class CharsetToolController {
             try {
                 String base64String = Files.readString(file.toPath());
                 handleBase64ToImage(base64String);
-                Notifications.success("转换成功!", Pos.TOP_RIGHT);
+                Notifications.success("转换成功!");
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

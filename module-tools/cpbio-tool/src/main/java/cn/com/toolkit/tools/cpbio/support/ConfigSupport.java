@@ -60,7 +60,6 @@ public class ConfigSupport {
                     writeJar(finalPath,finalBytes);
                     //writeJarFile(finalPath,finalBytes);
                 } catch (IOException | URISyntaxException e) {
-                    System.out.println(e.getMessage());
                     throw new RuntimeException(e);
                 }
             };

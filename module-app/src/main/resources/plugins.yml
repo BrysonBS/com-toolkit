@@ -23,3 +23,7 @@
 - name: "excel工具"
   fxml: "views/excel-tool.fxml"
   jar: "plugins/excel-tool-0.0.1.jar"
+- name: "sql转pojo"
+  fxml: "views/sql2pojo-tool.fxml"
+  jar: "plugins/sql2pojo-tool-0.0.1.jar"
+  fxmlLoader: "cn.com.toolkit.tools.sql2pojo.support.Sql2PojoFxmlLoader"

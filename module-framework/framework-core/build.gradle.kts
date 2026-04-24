@@ -32,6 +32,10 @@ dependencies {
     api(libs.bundles.google.zxing)
     api(libs.jnativehook)
     api(libs.fastexcel)
+    api(libs.sqlite.jdbc)
+    api(libs.aspectjrt)
+    api(libs.aspectjweaver)
+    api(libs.jasypt)
 
     api(libs.atlantafx.base)
     api(libs.controlsfx)
@@ -40,8 +44,12 @@ dependencies {
     api(libs.richtextfx)
     api(libs.bundles.byte.buddy)
 
+    api(libs.mysql.j)
+    api(libs.mssql.jdbc)
+    api(libs.postgresql)
+    api(libs.ojdbc10)
+    api(libs.sqlite.jdbc)
     api(libs.ngdbc)
-
 
     compileOnly("org.openjfx:javafx-base:$javafxVersion:$platform")
     compileOnly("org.openjfx:javafx-graphics:$javafxVersion:$platform")

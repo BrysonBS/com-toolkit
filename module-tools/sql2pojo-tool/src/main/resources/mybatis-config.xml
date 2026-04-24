@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="cn.com.toolkit.framework.core.factory.HikariCPDataSourceFactory">
+                <property name="jdbcUrl" value="jdbc:sqlite:./data/sql2pojo/app.db"/>
+                <property name="username" value=""/>
+                <property name="password" value=""/>
+                <property name="maximumPoolSize" value="10"/>
+                <property name="minimumIdle" value="5"/>
+                <property name="connectionTimeout" value="30000"/>
+                <property name="idleTimeout" value="600000"/>
+                <property name="poolName" value="Sql2PojoHikariPool"/>
+                <property name="connectionInitSql" value="PRAGMA busy_timeout = 30000;"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/SysDatabaseConfigMapper.xml"/>
+    </mappers>
+</configuration>

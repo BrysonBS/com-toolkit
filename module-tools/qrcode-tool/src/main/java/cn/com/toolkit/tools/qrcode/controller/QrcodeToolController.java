@@ -95,7 +95,7 @@ public class QrcodeToolController {
     public void handleGenerateQrcode(ActionEvent event) throws Exception {
         String content = contentTextArea.getText();
         if(StringUtils.isEmpty(content)) {
-            Notifications.error("请先输入内容!", Pos.TOP_RIGHT);
+            Notifications.error("请先输入内容!");
             return;
         }
         int onColor = getARGB(foregroundColorPicker.getValue());
@@ -129,7 +129,7 @@ public class QrcodeToolController {
                     contentTextArea.setText(code);
                 }
             } catch (Exception e) {
-                Notifications.error("未识别到二维码信息!", Pos.TOP_RIGHT);
+                Notifications.error("未识别到二维码信息!");
             }
         });
     }
@@ -153,7 +153,7 @@ public class QrcodeToolController {
         try {
             initialDirectory = file.getParentFile();
             ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", file);
-            Notifications.success("保存成功!", Pos.TOP_RIGHT);
+            Notifications.success("保存成功!");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

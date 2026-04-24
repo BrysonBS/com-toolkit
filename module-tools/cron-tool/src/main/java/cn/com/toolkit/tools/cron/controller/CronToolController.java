@@ -305,7 +305,7 @@ public class CronToolController {
             final ClipboardContent content = new ClipboardContent();
             content.putString(cornExpResultTextArea.getText());
             clipboard.setContent(content);
-            Notifications.success("已复制到剪切板!", Pos.TOP_RIGHT);
+            Notifications.success("已复制到剪切板!");
         });
         //运行按钮
         executeCornExpButton.setOnAction(event -> {

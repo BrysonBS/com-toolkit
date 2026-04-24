@@ -1,4 +1,6 @@
-
+plugins{
+    alias(libs.plugins.post.compile.weaving).apply(false)
+}
 allprojects {
     apply<JavaPlugin>()
 
@@ -20,7 +22,7 @@ allprojects {
     }
 }
 subprojects {
-
+    apply(plugin = "io.freefair.aspectj.post-compile-weaving")
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
     }

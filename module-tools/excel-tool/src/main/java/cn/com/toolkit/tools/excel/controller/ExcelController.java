@@ -119,7 +119,7 @@ public class ExcelController {
                 .filter(Objects::nonNull)
                 .toList();
         if(excelFileList.isEmpty()) {
-            Notifications.warning("请先选择文件", Pos.TOP_RIGHT);
+            Notifications.warning("请先选择文件");
             return;
         }
 
@@ -138,7 +138,7 @@ public class ExcelController {
                 ExcelCopySupport excelCopySupport = new ExcelCopySupport();
                 excelCopySupport.splitSheet(file,outputDirectory,sheetNoSet);
             }
-            Notifications.success("执行成功!", Pos.TOP_RIGHT);
+            Notifications.success("执行成功!");
         }
         else if(splitAvgRowRadioButton.isSelected()){
             openDirectoryChooser();
@@ -149,7 +149,7 @@ public class ExcelController {
                 ExcelCopySupport excelCopySupport = new ExcelCopySupport();
                 excelCopySupport.splitAvgRow(file,outputDirectory,sheetNoSet,avg);
             }
-            Notifications.success("执行成功!", Pos.TOP_RIGHT);
+            Notifications.success("执行成功!");
         }
         else if(splitNumRowRadioButton.isSelected()){
             openDirectoryChooser();
@@ -160,12 +160,12 @@ public class ExcelController {
                 ExcelCopySupport excelCopySupport = new ExcelCopySupport();
                 excelCopySupport.splitNumRow(file,outputDirectory,sheetNoSet,num);
             }
-            Notifications.success("执行成功!", Pos.TOP_RIGHT);
+            Notifications.success("执行成功!");
         }
         else if(splitColRadioButton.isSelected()){
             String value = splitColTextField.getText();
             if(StringUtils.isBlank(value)) {
-                Notifications.warning("请先输入需要拆分的列",Pos.TOP_RIGHT);
+                Notifications.warning("请先输入需要拆分的列");
                 return;
             }
             openDirectoryChooser();
@@ -179,14 +179,14 @@ public class ExcelController {
                 ExcelCopySupport excelCopySupport = new ExcelCopySupport();
                 excelCopySupport.splitCol(file,outputDirectory,sheetNoSet,colList);
             }
-            Notifications.success("执行成功!", Pos.TOP_RIGHT);
+            Notifications.success("执行成功!");
         }
         else if(mergeSheetRadioButton.isSelected()){
             openSaveFileChooser();
             if(outputFile == null) return;
             ExcelCopySupport excelCopySupport = new ExcelCopySupport();
             excelCopySupport.mergeSheet(excelFileList,outputFile);
-            Notifications.success("执行成功!", Pos.TOP_RIGHT);
+            Notifications.success("执行成功!");
         }
 
 

@@ -11,4 +11,5 @@ include 'module-tools:charset-tool'
 include 'module-tools:qrcode-tool'
 include 'module-tools:regex-tool'
 include 'module-tools:excel-tool'
+include 'module-tools:sql2pojo-tool'
 

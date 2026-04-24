@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<VBox xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="10"
+      fx:controller="cn.com.toolkit.tools.sql2pojo.controller.DatabaseConfigController">
+    <padding>
+        <Insets topRightBottomLeft="10" />
+    </padding>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label minWidth="80" text="名称" />
+        <TextField fx:id="nameTextField" HBox.hgrow="ALWAYS"/>
+        <Button onAction="#handleSelect" text="选择" styleClass="accent">
+            <graphic>
+                <FontIcon iconLiteral="fas-search"/>
+            </graphic>
+        </Button>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label minWidth="80" text="url" />
+        <TextField fx:id="urlTextField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label minWidth="80" text="username" />
+        <TextField fx:id="usernameTextField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label minWidth="80" text="password" />
+        <PasswordField fx:id="passwordPasswordField" HBox.hgrow="ALWAYS"/>
+    </HBox>
+    <HBox alignment="CENTER" spacing="10">
+        <Button styleClass="accent" text="测试连接" onAction="#handleTestConnection"/>
+        <Button styleClass="accent" text="保存连接" onAction="#handleSave"/>
+        <Button styleClass="success" text="确定" onAction="#handleConfirm">
+            <graphic>
+                <FontIcon iconLiteral="fas-check"/>
+            </graphic>
+        </Button>
+
+    </HBox>
+</VBox>

@@ -19,7 +19,7 @@ public class PluginContainer {
         try {
             classLoader = new URLClassLoader(
                     new URL[]{ Paths.get(pluginInfo.getJarPath()).toUri().toURL() }
-                    , ClassLoader.getSystemClassLoader()
+                    ,this.getClass().getClassLoader()
             );
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
@@ -31,9 +31,10 @@ public class PluginContainer {
         Thread.currentThread().setContextClassLoader(classLoader);
         FXMLLoader pluginFxmlLoader = (FXMLLoader) classLoader.loadClass(fxmlLoader).getDeclaredConstructor().newInstance();
         Thread.currentThread().setContextClassLoader(currentClassLoader);
-        pluginFxmlLoader.setClassLoader(classLoader);
         URL resource = classLoader.getResource(Strings.CS.removeStart(pluginInfo.getFxml(), "/"));
-        return pluginFxmlLoader.load(resource.openStream());
+        pluginFxmlLoader.setClassLoader(classLoader);
+        pluginFxmlLoader.setLocation(resource);
+        return pluginFxmlLoader.load();
     }
     public void close() throws Exception{
         classLoader.close();

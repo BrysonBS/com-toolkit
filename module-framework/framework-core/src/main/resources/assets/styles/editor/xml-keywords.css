@@ -1,0 +1,17 @@
+.code-area .xml-tag {
+    -fx-fill: -color-accent-fg;
+    -fx-font-weight: bold;
+}
+
+.code-area .xml-attribute {
+    -fx-fill: -color-fg-default;
+}
+
+.code-area .xml-attribute-value {
+    -fx-fill: -color-success-fg;
+}
+
+.code-area .xml-comment {
+    -fx-fill: -color-neutral-emphasis;
+    -fx-font-style: italic;
+}

@@ -119,7 +119,7 @@ public class ImageToolController {
         if(StringUtils.isBlank(globalExtension)){
             for (ImageInfo imageInfo : dataObservableList.filtered(ImageInfo::getSelect)) {
                 if(StringUtils.isEmpty(imageInfo.getExtension())){
-                    Notifications.warning("请先指定图片[" + imageInfo.getName() + "]要转换的目标格式",Pos.TOP_RIGHT);
+                    Notifications.warning("请先指定图片[" + imageInfo.getName() + "]要转换的目标格式");
                     return;
                 }
             }
@@ -160,11 +160,11 @@ public class ImageToolController {
             if(success) successList.add(dataObservableList.indexOf(imageInfo) + 1);
         }
         if(successList.isEmpty())
-            Notifications.error("转换失败!", Pos.TOP_RIGHT);
+            Notifications.error("转换失败!");
         else if(successList.size() == 1)
-            Notifications.success("转换成功!", Pos.TOP_RIGHT);
+            Notifications.success("转换成功!");
         else
-            Notifications.success("序号: " + successList + "转换成功!", Pos.TOP_RIGHT);
+            Notifications.success("序号: " + successList + "转换成功!");
     }
     @FXML
     private void handleRemoveSelect(ActionEvent event) {

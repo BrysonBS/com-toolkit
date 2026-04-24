@@ -51,7 +51,6 @@ public class MybatisConfig {
         config.setJdbcUrl(DataSourceConfig.getUrl(properties));
         config.setUsername(DataSourceConfig.getUsername(properties));
         config.setPassword(DataSourceConfig.getPassword(properties));
-        System.out.println(config.getPassword());
 
         // 连接池核心配置
         config.setInitializationFailTimeout(Integer.parseInt(properties.getProperty("spring.datasource.hikari.initialization-fail-timeout", "-1")));

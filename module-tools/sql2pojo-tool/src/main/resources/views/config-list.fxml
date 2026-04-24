@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      prefHeight="300"
+      fx:controller="cn.com.toolkit.tools.sql2pojo.controller.ConfigListController">
+    <padding>
+        <Insets bottom="10"/>
+    </padding>
+    <TableView fx:id="databaseConfigTableView" VBox.vgrow="ALWAYS"
+               styleClass="header-center"
+               style="-fx-border-width: 0;-color-cell-bg-selected: -color-accent-subtle;-color-cell-fg-selected: -color-fg-emphasis;-color-cell-bg-selected-focused: -color-accent-subtle;-color-cell-fg-selected-focused: -color-fg-emphasis;"
+               editable="true">
+        <columns>
+            <TableColumn text="名称" sortable="false" styleClass="align-center" prefWidth="300">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="operateColumn" styleClass="align-center" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" sortable="false">
+                <graphic>
+                    <FontIcon iconLiteral="fas-cog"/>
+                </graphic>
+            </TableColumn>
+        </columns>
+        <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+        </columnResizePolicy>
+    </TableView>
+    <HBox spacing="10" alignment="CENTER_RIGHT">
+        <padding>
+            <Insets right="10"/>
+        </padding>
+        <Button text="确定" styleClass="accent" onAction="#handleOk">
+            <graphic>
+                <FontIcon iconLiteral="fas-check"/>
+            </graphic>
+        </Button>
+        <Button text="取消" styleClass="danger" onAction="#handleCancel">
+            <graphic>
+                <FontIcon iconLiteral="fas-times"/>
+            </graphic>
+        </Button>
+    </HBox>
+</VBox>

@@ -3,6 +3,7 @@ package cn.com.toolkit.framework.core.editor;
 import cn.com.toolkit.framework.core.editor.styler.JavaStyler;
 import cn.com.toolkit.framework.core.editor.styler.JsonStyler;
 import cn.com.toolkit.framework.core.editor.styler.SqlStyler;
+import cn.com.toolkit.framework.core.editor.styler.XmlStyler;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public enum LanguageType {
     JAVA(List.of("java"), "Java", "/assets/styles/editor/java-keywords.css",new JavaStyler()),
     SQL(List.of("sql"), "SQL", "/assets/styles/editor/sql-keywords.css",new SqlStyler()),
     JSON(List.of("json"), "JSON", "/assets/styles/editor/json-keywords.css",new JsonStyler()),
-    XML(List.of("xml"), "XML", "/assets/styles/editor/xml-keywords.css",null),
+    XML(List.of("xml"), "XML", "/assets/styles/editor/xml-keywords.css",new XmlStyler()),
     C(List.of("json"), "C", "/assets/styles/editor/c-keywords.css",null),
     PLAIN_TEXT(List.of("txt", "text", "md", "log"), "Plain Text", null,null)
 
