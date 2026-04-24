@@ -22,7 +22,6 @@ javafx {
 
 dependencies{
     implementation(project(":module-framework:framework-core"))
-    implementation("it.sauronsoftware:junique:1.0.4")
 }
 
 var appImageName = "toolkit"

@@ -36,6 +36,7 @@ dependencies {
     api(libs.aspectjrt)
     api(libs.aspectjweaver)
     api(libs.jasypt)
+    api(libs.junique)
 
     api(libs.atlantafx.base)
     api(libs.controlsfx)
