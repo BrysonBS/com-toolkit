@@ -2,21 +2,30 @@ package cn.com.toolkit.tools.image.controller;
 
 import atlantafx.base.theme.Styles;
 import cn.com.toolkit.framework.core.control.ClearableComboBox;
+import cn.com.toolkit.framework.core.support.ExecutorSupport;
+import cn.com.toolkit.framework.core.support.ProgressBarDialogSupport;
 import cn.com.toolkit.framework.core.util.Notifications;
+import cn.com.toolkit.framework.core.util.ToolKitFXUtil;
 import cn.com.toolkit.framework.core.util.ToolKitUtil;
 import cn.com.toolkit.tools.image.domain.bo.ImageInfo;
 import cn.com.toolkit.tools.image.support.ImageSupport;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.*;
 import javafx.util.converter.IntegerStringConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
@@ -25,11 +34,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class ImageToolController {
@@ -45,7 +58,9 @@ public class ImageToolController {
     @FXML private TableColumn<ImageInfo,Integer> heightColumn;
     @FXML private TableColumn<ImageInfo,Boolean> keepAspectRatioColumn;
     @FXML private TableColumn<ImageInfo,String> extensionColumn;
-
+    private File importDir = new File(System.getProperty("user.home") + File.separator + "Downloads");
+    private File exportDir = new File(System.getProperty("user.home") + File.separator + "Downloads");
+    private final ProgressBarDialogSupport progressBarDialogSupport = new ProgressBarDialogSupport("转换中...");
     @FXML
     public void initialize(){
         globalExtensionComboBox.setItems(FXCollections.observableArrayList(writeFormatList()));
@@ -94,16 +109,28 @@ public class ImageToolController {
 
     public void handleImport(ActionEvent event) throws IOException {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + File.separator + "Downloads"));
+        fileChooser.setInitialDirectory(importDir);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("支持的格式",readExtensions()));
         List<File> selectedFiles = fileChooser.showOpenMultipleDialog(null);
         if (selectedFiles != null && !selectedFiles.isEmpty()) {
+            importDir = selectedFiles.getFirst().getParentFile();
             for (File file : selectedFiles) {
-                BufferedImage bufferedImage = ImageIO.read(file);
-                bufferedImage.getWidth();
-                ImageInfo imageInfo = new ImageInfo(file,file.getName(),file.length()
-                ,bufferedImage.getWidth(),bufferedImage.getHeight(),file.getName().substring(file.getName().lastIndexOf(".") + 1));
-                dataObservableList.add(imageInfo);
+                try (ImageInputStream iis = ImageIO.createImageInputStream(file)) {
+                    Iterator<ImageReader> readers = ImageIO.getImageReaders(iis);
+                    if (readers.hasNext()) {
+                        ImageReader reader = readers.next();
+                        try {
+                            reader.setInput(iis);
+                            int width = reader.getWidth(0);   // 获取第0张图的宽度
+                            int height = reader.getHeight(0); // 获取第0张图的高度
+                            String format = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+                            ImageInfo imageInfo = new ImageInfo(file, file.getName(), file.length(), width, height, format);
+                            dataObservableList.add(imageInfo);
+                        } finally {
+                            reader.dispose();
+                        }
+                    }
+                }
             }
         }
     }
@@ -113,13 +140,13 @@ public class ImageToolController {
         dataObservableList.forEach(e -> e.setSelect(checkBox.isSelected()));
     }
     @FXML
-    private void handleTransferSelect(ActionEvent event) throws IOException {
+    private void handleTransferSelect(ActionEvent event) {
         if(dataObservableList.isEmpty()) return;
         String globalExtension = globalExtensionComboBox.getValue();
         if(StringUtils.isBlank(globalExtension)){
             for (ImageInfo imageInfo : dataObservableList.filtered(ImageInfo::getSelect)) {
                 if(StringUtils.isEmpty(imageInfo.getExtension())){
-                    Notifications.warning("请先指定图片[" + imageInfo.getName() + "]要转换的目标格式");
+                    Notifications.error("请先指定图片[" + imageInfo.getName() + "]要转换的目标格式");
                     return;
                 }
             }
@@ -127,44 +154,69 @@ public class ImageToolController {
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("选择保存目录");
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home") + File.separator + "Downloads"));
+        directoryChooser.setInitialDirectory(exportDir);
         File selectedDirectory = directoryChooser.showDialog(null);
         if(selectedDirectory == null) return;
+        exportDir = selectedDirectory;
         String basePath = selectedDirectory.getAbsolutePath();
 
-        List<Integer> successList = new ArrayList<>();
-        for (ImageInfo imageInfo : dataObservableList.filtered(ImageInfo::getSelect)) {
-            String extension = StringUtils.isBlank(imageInfo.getExtension())
-                    ? globalExtension : imageInfo.getExtension();
-            String name = imageInfo.getName();
-            String newName = name.substring(0,name.lastIndexOf(".") + 1) + extension;
-            File outputFile = new File(basePath, newName);
-            BufferedImage originalImage = ImageIO.read(imageInfo.getFile());
-            if(extension.equalsIgnoreCase("ico")
-            || extension.equalsIgnoreCase("icns")){
-                try {
-                    int[] size = extension.equalsIgnoreCase("icns")?
-                        new int[]{16,32,64,128,256} : new int[]{16,32,48,64,96,128,256};
-                    ImageSupport.convertToIco(originalImage,outputFile,size,extension);
-                    successList.add(dataObservableList.indexOf(imageInfo) + 1);
-                }catch (Exception e){
+        List<ImageInfo> imageTransferList = dataObservableList.filtered(ImageInfo::getSelect).stream().toList();
+        int taskCount = imageTransferList.size();
+        final List<Integer> successList = new ArrayList<>();
+        CountDownLatch latch = new CountDownLatch(taskCount);
+        progressBarDialogSupport.reset(taskCount);
+        progressBarDialogSupport.show();
+        for (ImageInfo imageInfo : imageTransferList) {
+            ExecutorSupport.submit(() -> {
+                try{
+                    String extension = StringUtils.isBlank(imageInfo.getExtension())
+                            ? globalExtension : imageInfo.getExtension();
+                    String name = imageInfo.getName();
+                    String newName = name.substring(0,name.lastIndexOf(".") + 1) + extension;
+                    File outputFile = new File(basePath, newName);
+                    BufferedImage originalImage = ImageIO.read(imageInfo.getFile());
+                    if(extension.equalsIgnoreCase("ico")
+                            || extension.equalsIgnoreCase("icns")){
+                        int[] size = extension.equalsIgnoreCase("icns")?
+                                new int[]{16,32,64,128,256} : new int[]{16,32,48,64,96,128,256};
+                        ImageSupport.convertToIco(originalImage,outputFile,size,extension);
+                        successList.add(dataObservableList.indexOf(imageInfo) + 1);
+                        progressBarDialogSupport.increment();
+                        return;
+                    }
+                    else if(extension.equalsIgnoreCase("wbmp"))
+                        originalImage = ImageSupport.convertToBinaryImage(originalImage);
+                    if(imageInfo.needAspectRatio())
+                        originalImage = ImageSupport.resizeImage(originalImage,imageInfo.getWidth(),imageInfo.getHeight(),imageInfo.getKeepAspectRatio());
+                    boolean success = ImageIO.write(originalImage, extension, outputFile);
+                    if(success) {
+                        successList.add(dataObservableList.indexOf(imageInfo) + 1);
+                        progressBarDialogSupport.increment();
+                    }
+                } catch (Exception e){
                     log.error(e.getMessage(),e);
+                    Thread.currentThread().interrupt();
+                } finally {
+                    latch.countDown();
                 }
-                continue;
-            }
-            else if(extension.equalsIgnoreCase("wbmp"))
-                originalImage = ImageSupport.convertToBinaryImage(originalImage);
-            if(imageInfo.needAspectRatio())
-                originalImage = ImageSupport.resizeImage(originalImage,imageInfo.getWidth(),imageInfo.getHeight(),imageInfo.getKeepAspectRatio());
-            boolean success = ImageIO.write(originalImage, extension, outputFile);
-            if(success) successList.add(dataObservableList.indexOf(imageInfo) + 1);
+            });
         }
-        if(successList.isEmpty())
-            Notifications.error("转换失败!");
-        else if(successList.size() == 1)
-            Notifications.success("转换成功!");
-        else
-            Notifications.success("序号: " + successList + "转换成功!");
+        ExecutorSupport.submit(() -> {
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            Platform.runLater(() -> {
+                progressBarDialogSupport.hide();
+                if(successList.isEmpty())
+                    Notifications.error("转换失败!");
+                else if(successList.size() == 1)
+                    Notifications.success("转换成功!");
+                else
+                    Notifications.success(successList.size() + " 张图片转换成功!" + "序号: " + successList);
+            });
+        });
     }
     @FXML
     private void handleRemoveSelect(ActionEvent event) {
