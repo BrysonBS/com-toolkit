@@ -138,4 +138,7 @@ public class EditorCodeArea extends CodeArea {
     public void setLanguageType(LanguageType languageType) {
         this.languageTypeProperty.set(languageType);
     }
+    public void setStyleUnderline(int form,int to){
+        setStyle(form, to, List.of("underline"));
+    }
 }

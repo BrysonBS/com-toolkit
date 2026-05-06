@@ -47,3 +47,8 @@
 .code-area .paragraph-box:has-caret {
     -fx-background-color: -color-bg-subtle;
 }
+.code-area .underline {
+    -rtfx-underline-color: -color-danger-emphasis;
+    -rtfx-underline-width: 2px;
+    -rtfx-underline-wave-radius: 1;
+}

@@ -4,19 +4,23 @@ import atlantafx.base.theme.*;
 import cn.com.toolkit.app.domain.bo.PluginInfo;
 import cn.com.toolkit.app.plugin.PluginContainer;
 import cn.com.toolkit.app.plugin.PluginUtils;
+import cn.com.toolkit.framework.core.support.FXScreenshot;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import lombok.Setter;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ToolkitAppController {
     @FXML private TabPane tabPane;
     @FXML private FlowPane contentFlowPane;
+    @Setter
+    private FXScreenshot fxScreenshot;
+
 
     @FXML
     private void initialize(){
@@ -88,5 +92,9 @@ public class ToolkitAppController {
                 Application.setUserAgentStylesheet(new Dracula().getUserAgentStylesheet());
                 break;
         }
+    }
+
+    public void handleScreenshot(ActionEvent event) {
+        fxScreenshot.startScreenshot(true,null);
     }
 }

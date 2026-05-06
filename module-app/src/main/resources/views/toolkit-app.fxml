@@ -24,6 +24,9 @@
                 <RadioMenuItem text="Dracula" toggleGroup="$themeToggleGroup" onAction="#handleThemeChange"/>
             </Menu>
         </Menu>
+        <Menu text="工具">
+            <MenuItem text="截图" accelerator="Alt+Shift+Z" onAction="#handleScreenshot"/>
+        </Menu>
     </MenuBar>
 
     <TabPane fx:id="tabPane" VBox.vgrow="ALWAYS">

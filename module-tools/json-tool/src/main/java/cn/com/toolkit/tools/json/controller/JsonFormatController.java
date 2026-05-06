@@ -2,7 +2,9 @@ package cn.com.toolkit.tools.json.controller;
 
 import cn.com.toolkit.framework.core.editor.EditorCodeArea;
 import cn.com.toolkit.framework.core.editor.LanguageType;
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import javafx.event.ActionEvent;
@@ -19,7 +21,10 @@ public class JsonFormatController {
     private void initialize(){
         editorPane = new EditorCodeArea(true, LanguageType.JSON);
         contentStackPane.getChildren().add(new VirtualizedScrollPane<>(editorPane));
-        objectMapper = JsonMapper.builder().build();
+        objectMapper = JsonMapper.builder()
+                .enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS)
+                .build();
+
     }
     public void handleFormat(ActionEvent event) {
         String text = editorPane.getText();
@@ -27,7 +32,7 @@ public class JsonFormatController {
         try {
             editorPane.setText(objectMapper.readTree(text).toPrettyString());
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            handleException(e);
         }
     }
     public void handleCompress(ActionEvent event) {
@@ -36,7 +41,7 @@ public class JsonFormatController {
         try {
             editorPane.setText(objectMapper.readTree(text).toString());
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            handleException(e);
         }
     }
 
@@ -46,7 +51,7 @@ public class JsonFormatController {
         try {
             editorPane.setText(objectMapper.writeValueAsString(text));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            handleException(e);
         }
     }
 
@@ -56,7 +61,18 @@ public class JsonFormatController {
         try {
             editorPane.setText(objectMapper.readValue(text,String.class));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            handleException(e);
         }
+    }
+
+    private void handleException(JsonProcessingException e){
+        JsonLocation jsonLocation = e.getLocation();
+        int position = (int) jsonLocation.getCharOffset();
+        int length = editorPane.getLength();
+        editorPane.moveTo(position);
+        editorPane.setStyleUnderline(Math.max(0,position - 2), Math.min(length,position + 2));
+        editorPane.requestFollowCaret();
+        editorPane.requestFocus();
+        throw new RuntimeException(jsonLocation.toString());
     }
 }

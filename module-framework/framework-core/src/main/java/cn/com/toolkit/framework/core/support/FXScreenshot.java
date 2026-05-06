@@ -5,6 +5,9 @@ import cn.com.toolkit.framework.core.enums.DatePatternEnum;
 import cn.com.toolkit.framework.core.enums.HomeDirectoryEnum;
 import cn.com.toolkit.framework.core.util.ToolKitFXUtil;
 import cn.com.toolkit.framework.core.util.ToolKitUtil;
+import com.github.kwhat.jnativehook.GlobalScreen;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyEvent;
+import com.github.kwhat.jnativehook.keyboard.NativeKeyListener;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
@@ -43,6 +46,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * 完整的JavaFX截图工具
@@ -53,6 +58,11 @@ public class FXScreenshot {
     private final KeyCombination ctrlC = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
     //保存快捷键
     private final KeyCombination ctrlS = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
+    //快捷键相关
+    private NativeKeyListener nativeKeyListener;
+    private int keyCode = NativeKeyEvent.VC_Z;
+    private int[] modifiers = new int[]{ NativeKeyEvent.ALT_MASK , NativeKeyEvent.SHIFT_MASK };
+
     private final Stage primaryStage;
     private Consumer<Image> screenshotConsumer;
     private Boolean isShowing;
@@ -86,6 +96,41 @@ public class FXScreenshot {
     public FXScreenshot() {
         this(ToolKitFXUtil.getPrimaryStage());
     }
+    public void registerScreenshotHotkey() {
+        if(nativeKeyListener != null) return;
+        try {
+            // 关闭jnativehook的日志
+            Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+            logger.setLevel(Level.OFF);
+            logger.setUseParentHandlers(false);
+
+            // 注册全局屏幕
+            if(!GlobalScreen.isNativeHookRegistered()) GlobalScreen.registerNativeHook();
+
+            // 添加全局键盘监听
+            nativeKeyListener = new NativeKeyListener() {
+                @Override
+                public void nativeKeyPressed(NativeKeyEvent e) {
+                    if(e.getKeyCode() != keyCode) return;
+                    for (int modifier : modifiers) {
+                        if((e.getModifiers() & modifier) == 0) return;
+                    }
+                    Platform.runLater(() -> startScreenshot(true, null));
+                }
+                @Override
+                public void nativeKeyReleased(NativeKeyEvent e) {}
+                @Override
+                public void nativeKeyTyped(NativeKeyEvent e) {}
+            };
+            GlobalScreen.addNativeKeyListener(nativeKeyListener);
+
+        } catch (Exception ignored) {}
+    }
+    public void setScreenshotHotkey(int[] modifiers,int keyCode){
+        if(modifiers != null) this.modifiers = modifiers;
+        if(keyCode != 0) this.keyCode = keyCode;
+    }
+
 
     /**
      * 开始截图

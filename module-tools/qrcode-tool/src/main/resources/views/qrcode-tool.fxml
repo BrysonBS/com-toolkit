@@ -19,7 +19,7 @@
                             <Button onAction="#handleGenerateQrcode" text="生成二维码" styleClass="left-pill,accent"/>
                             <Button onAction="#handleSnapshot" text="截图识别" styleClass="center-pill,danger">
                                 <tooltip>
-                                    <Tooltip text="Alt+Shift+A"/>
+                                    <Tooltip text="Alt+Shift+Z"/>
                                 </tooltip>
                             </Button>
                             <Button onAction="#handleSaveQrcode" text="保存" styleClass="right-pill,success">

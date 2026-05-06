@@ -43,7 +43,7 @@ import java.util.function.Consumer;
 
 public class QrcodeToolController {
     //截屏快捷键
-    private final KeyCombination ALT_SHIFT_A = new KeyCodeCombination(KeyCode.A,KeyCombination.ALT_DOWN,KeyCombination.SHIFT_DOWN);
+    private final KeyCombination ALT_SHIFT_Z = new KeyCodeCombination(KeyCode.Z,KeyCombination.ALT_DOWN,KeyCombination.SHIFT_DOWN);
     private final KeyCombination CTRL_S = new KeyCodeCombination(KeyCode.S,KeyCombination.CONTROL_DOWN);
     private final String extension = "png";
     private final ObservableList<ErrorCorrectionLevelEnum> errorCorrectionLevelObservableList = FXCollections.observableArrayList(
@@ -85,7 +85,7 @@ public class QrcodeToolController {
             Scene scene = primaryStage.getScene();
             if(scene != null) {
                 scene.setOnKeyPressed(event -> {
-                    if (ALT_SHIFT_A.match(event)) handleSnapshot(null);
+                    if (ALT_SHIFT_Z.match(event)) handleSnapshot(null);
                     if (CTRL_S.match(event)) handleSaveQrcode(null);
                 });
             }
